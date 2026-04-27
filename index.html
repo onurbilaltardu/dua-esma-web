@@ -68,7 +68,7 @@ h1{font-size:30px;margin:0 0 8px;line-height:1.2}
 .tap-btn{width:220px;height:220px;border-radius:50%;border:4px solid rgba(201,162,39,.5);background:radial-gradient(circle at top,#2f7b35,var(--green-900));color:#fff;font-size:26px;font-weight:bold;display:block;margin:0 auto;cursor:pointer;box-shadow:0 18px 36px rgba(13,59,18,.25)}
 .secondary-btn{display:inline-block;margin:14px auto 0;border:none;border-radius:12px;padding:12px 14px;font-size:14px;cursor:pointer;background:rgba(201,162,39,.14);color:#8a6d0d;border:1px solid rgba(201,162,39,.45)}
 .switch-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 6px}
-.bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;width:min(920px,calc(100% - 24px));background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:10px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;width:min(920px,calc(100% - 24px));background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:10px;display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
 body.theme-dark .bottom-nav{background:rgba(17,24,39,.95)}
 .nav-btn{border:none;background:transparent;border-radius:14px;padding:12px 10px;cursor:pointer;color:var(--muted);font-weight:bold}
 .nav-btn.active{background:rgba(27,94,32,.09);color:var(--green-800)}
@@ -86,11 +86,39 @@ body.theme-dark .bottom-nav{background:rgba(17,24,39,.95)}
   .arabic{font-size:24px}
   .tasbih-count{font-size:50px}
   .tap-btn{width:190px;height:190px}
-  .bottom-nav{grid-template-columns:repeat(4,1fr)}
+  .bottom-nav{grid-template-columns:repeat(6,1fr);gap:4px}
+  .nav-btn{font-size:12px;padding:10px 4px}
 }
 body.theme-dark .detail,body.theme-dark .tasbih-panel,body.theme-dark .content-block,body.theme-dark .source,body.theme-dark .esma-section,body.theme-dark .favorites-section{
   background:#111827 !important;color:#e5e7eb !important;border-color:#334155 !important;
 }
+
+.audio-dua-section{display:none;background:linear-gradient(180deg,#fffdf5 0%,#fff6dd 100%);border:1px solid #ead48d;border-radius:28px;box-shadow:var(--shadow);padding:20px;margin-top:18px}
+.audio-dua-section.active{display:block}
+.audio-player-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:14px;margin:12px 0 16px;box-shadow:var(--shadow)}
+.audio-player-title{flex:1;min-width:190px;font-weight:700;color:var(--green-800)}
+.audio-play-btn{border:none;background:var(--green-800);color:#fff;border-radius:12px;padding:10px 12px;cursor:pointer;font-weight:bold}
+.audio-stop-btn{border:none;background:rgba(201,162,39,.18);color:#7a5d07;border:1px solid rgba(201,162,39,.45);border-radius:12px;padding:10px 12px;cursor:pointer;font-weight:bold}
+.audio-note{font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 12px}
+.audio-card-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+body.theme-dark .audio-dua-section{background:#111827 !important;color:#e5e7eb !important;border-color:#334155 !important}
+
+.lang-switch{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.lang-btn{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;padding:9px 12px;font-weight:700;cursor:pointer}
+.lang-btn.active{background:var(--gold);color:#1b1b1b;border-color:rgba(255,255,255,.4)}
+.tasks-section{display:none;background:linear-gradient(180deg,#fffdf5 0%,#fff6dd 100%);border:1px solid #ead48d;border-radius:28px;box-shadow:var(--shadow);padding:20px;margin-top:18px}
+.tasks-section.active{display:block}
+.tasks-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.tasks-progress{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);font-weight:700;color:var(--green-800)}
+.task-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:15px;box-shadow:var(--shadow);margin-bottom:12px}
+.task-card.done{border-color:rgba(27,94,32,.35);background:rgba(27,94,32,.06)}
+.task-card h3{margin:0 0 8px;font-size:18px}
+.task-items{display:grid;gap:8px;margin-top:10px}
+.task-check{display:flex;gap:10px;align-items:flex-start;line-height:1.45;color:var(--text)}
+.task-check input{width:20px;height:20px;min-width:20px;accent-color:#1b5e20;margin-top:1px}
+body.theme-dark .tasks-section{background:#111827 !important;color:#e5e7eb !important;border-color:#334155 !important}
+@media (max-width:700px){.nav-btn{font-size:11px;padding:9px 2px}.lang-btn{padding:8px 10px}}
+
 </style>
 </head>
 <body>
@@ -98,7 +126,8 @@ body.theme-dark .detail,body.theme-dark .tasbih-panel,body.theme-dark .content-b
   <section class="hero">
     <div class="hero-badge">☪️ Onur Bilal Tardu Versiyonu • Geliştirilmiş</div>
     <h1>Dua • Prayer • دعاء</h1>
-    <p class="sub">70 Dualar • 99 Esmaül Hüsna • 4 Dil • Tesbih</p>
+    <p class="sub" id="heroSub">70 Dua • 99 Esmaül Hüsna • Sesli Dualar • 99 Günlük Görev</p>
+    <div class="lang-switch" aria-label="Language selection"><button class="lang-btn active" id="langTr" data-lang="tr">TR Türkçe</button><button class="lang-btn" id="langEn" data-lang="en">EN English</button><button class="lang-btn" id="langAr" data-lang="ar">AR العربية</button></div>
     <div class="stats">
       <div class="stat"><strong>70</strong><span>Dua</span></div>
       <div class="stat"><strong>99</strong><span>Esma</span></div>
@@ -142,6 +171,36 @@ body.theme-dark .detail,body.theme-dark .tasbih-panel,body.theme-dark .content-b
       <input class="search" id="favoritesSearchInput" placeholder="Favorilerde ara..." />
     </div>
     <div class="favorites-list" id="favoritesList"></div>
+  </section>
+
+
+
+  <section class="audio-dua-section" id="audioDuasSection">
+    <div class="toolbar">
+      <input class="search" id="audioDuaSearchInput" placeholder="Sesli dua ara..." />
+      <button class="pill-btn" id="showAllAudioDuasBtn">Tümünü Göster</button>
+    </div>
+    <p class="audio-note">Burada sadece doğru eşleşen gerçek hoca sesleri bulunur. Normal 70 dua listesi değiştirilmedi.</p>
+    <div class="audio-player-bar" id="audioPlayerBar">
+      <div class="audio-player-title" id="audioPlayerTitle">Bir sesli dua seç</div>
+      <button class="audio-stop-btn" id="stopAudioDuaBtn">⏹ Durdur</button>
+    </div>
+    <div class="dua-list" id="audioDuaList"></div>
+  </section>
+
+  <section class="tasks-section" id="tasksSection">
+    <div class="tasks-head">
+      <div>
+        <h2 id="tasksTitle" style="margin:0 0 6px">Görevler</h2>
+        <p class="audio-note" id="tasksNote">99 günlük ibadet takip planı. Tikler cihazda kaydedilir.</p>
+      </div>
+      <div class="tasks-progress" id="tasksProgress">0 / 99</div>
+    </div>
+    <div class="toolbar">
+      <input class="search" id="tasksSearchInput" placeholder="Görev ara..." />
+      <button class="pill-btn" id="showAllTasksBtn">Tümünü Göster</button>
+    </div>
+    <div id="tasksList"></div>
   </section>
 
   <section class="detail" id="detailSection">
@@ -200,6 +259,8 @@ body.theme-dark .detail,body.theme-dark .tasbih-panel,body.theme-dark .content-b
 <nav class="bottom-nav">
   <button class="nav-btn active" id="navHome">Dualar</button>
   <button class="nav-btn" id="navEsma">Esma</button>
+  <button class="nav-btn" id="navAudioDuas">Sesli</button>
+  <button class="nav-btn" id="navTasks">Görev</button>
   <button class="nav-btn" id="navTasbih">Tesbih</button>
   <button class="nav-btn" id="navFavorites">Favoriler</button>
 </nav>
@@ -256,6 +317,12 @@ goalText=document.getElementById('goalText'),
 searchInput=document.getElementById('searchInput'),
 esmaSearchInput=document.getElementById('esmaSearchInput'),
 favoritesSearchInput=document.getElementById('favoritesSearchInput'),
+audioDuaSearchInput=document.getElementById('audioDuaSearchInput'),
+audioDuaList=document.getElementById('audioDuaList'),
+audioPlayerTitle=document.getElementById('audioPlayerTitle'),
+tasksSearchInput=document.getElementById('tasksSearchInput'),
+tasksList=document.getElementById('tasksList'),
+tasksProgress=document.getElementById('tasksProgress'),
 continueBtn=document.getElementById('continueBtn'),
 darkModeBtn=document.getElementById('darkModeBtn'),
 muteBtn=document.getElementById('muteBtn'),
@@ -268,6 +335,65 @@ toast33=document.getElementById('toast33'),
 toast99=document.getElementById('toast99'),
 favTotalStat=document.getElementById('favTotalStat');
 
+
+let currentLang = localStorage.getItem('app_lang_v1') || 'tr';
+const I18N = {
+  tr:{heroSub:'70 Dua • 99 Esmaül Hüsna • Sesli Dualar • 99 Günlük Görev',fav:'Favori',searchDua:'Dua ara...',showAll:'Tümünü Göster',all:'Tümü',prayer:'Namaz',daily:'Günlük',protection:'Korunma',quranic:"Kur'an",continue:'Kaldığın yerden devam',dark:'Karanlık mod',light:'Aydınlık mod',dualar:'Dualar',esma:'Esma',audio:'Sesli',tasks:'Görev',tasbih:'Tesbih',favorites:'Favoriler',esmaSearch:'Esma ara...',onlyFav:'Sadece favoriler',allEsma:'Tüm Esmalar',favSearch:'Favorilerde ara...',audioSearch:'Sesli dua ara...',audioNote:'Burada sadece doğru eşleşen gerçek hoca sesleri bulunur. Normal 70 dua listesi değiştirilmedi.',chooseAudio:'Bir sesli dua seç',stop:'⏹ Durdur',playScholar:'▶ Hoca Sesi',playing:'Çalıyor: ',completed:'Tamamlandı',audioError:'Ses açılamadı. İnterneti kontrol et.',noAudio:'Sesli dua bulunamadı',changeSearch:'Aramanı değiştir.',tasksTitle:'Görevler',tasksNote:'99 günlük ibadet takip planı. Tikler cihazda kaydedilir.',taskSearch:'Görev ara...',day:'Gün',done:'Tamamlandı',notDone:'Devam ediyor',dhikrCounter:'Zikir sayacı',esmaCounter:'Esma sayacı',back:'← Geri Dön',reset:'Sıfırla',mute:'Sesi Kapat',unmute:'Sesi Aç',resetAll:'Tümünü Sıfırla',currentRound:'Mevcut tur',lap33:'33 tamamlanan tur',lap99:'99 tamamlanan tur',todayTotal:'Bugünkü toplam',noDua:'Gösterilecek dua yok',noFav:'Favori bulunamadı',readCounter:'Okuma / zikir sayacı'},
+  en:{heroSub:'70 Prayers • 99 Beautiful Names • Audio Prayers • 99-Day Tasks',fav:'Favorite',searchDua:'Search prayers...',showAll:'Show All',all:'All',prayer:'Prayer',daily:'Daily',protection:'Protection',quranic:'Quranic',continue:'Continue where you left off',dark:'Dark mode',light:'Light mode',dualar:'Prayers',esma:'Names',audio:'Audio',tasks:'Tasks',tasbih:'Counter',favorites:'Favorites',esmaSearch:'Search names...',onlyFav:'Favorites only',allEsma:'All Names',favSearch:'Search favorites...',audioSearch:'Search audio prayers...',audioNote:'Only correctly matched real recitations are listed here. The normal 70-prayer list was not changed.',chooseAudio:'Choose an audio prayer',stop:'⏹ Stop',playScholar:'▶ Recitation',playing:'Playing: ',completed:'Completed',audioError:'Audio could not play. Check your internet.',noAudio:'No audio prayer found',changeSearch:'Change your search.',tasksTitle:'Tasks',tasksNote:'99-day worship tracking plan. Checkmarks are saved on this device.',taskSearch:'Search tasks...',day:'Day',done:'Completed',notDone:'In progress',dhikrCounter:'Dhikr counter',esmaCounter:'Name counter',back:'← Back',reset:'Reset',mute:'Mute Sound',unmute:'Unmute Sound',resetAll:'Reset All',currentRound:'Current round',lap33:'33 rounds completed',lap99:'99 rounds completed',todayTotal:'Today total',noDua:'No prayers to show',noFav:'No favorites found',readCounter:'Reading / dhikr counter'},
+  ar:{heroSub:'٧٠ دعاء • ٩٩ اسمًا من أسماء الله الحسنى • أدعية صوتية • مهام ٩٩ يومًا',fav:'المفضلة',searchDua:'ابحث عن دعاء...',showAll:'إظهار الكل',all:'الكل',prayer:'الصلاة',daily:'يومي',protection:'الحفظ',quranic:'قرآني',continue:'المتابعة من حيث توقفت',dark:'الوضع الداكن',light:'الوضع الفاتح',dualar:'الأدعية',esma:'الأسماء',audio:'الصوت',tasks:'المهام',tasbih:'التسبيح',favorites:'المفضلة',esmaSearch:'ابحث عن اسم...',onlyFav:'المفضلة فقط',allEsma:'كل الأسماء',favSearch:'ابحث في المفضلة...',audioSearch:'ابحث عن دعاء صوتي...',audioNote:'هنا توجد التلاوات الحقيقية المطابقة فقط. لم يتم تغيير قائمة الأدعية الأصلية.',chooseAudio:'اختر دعاءً صوتيًا',stop:'⏹ إيقاف',playScholar:'▶ تلاوة',playing:'يتم التشغيل: ',completed:'اكتمل',audioError:'تعذر تشغيل الصوت. تحقق من الإنترنت.',noAudio:'لم يتم العثور على دعاء صوتي',changeSearch:'غيّر البحث.',tasksTitle:'المهام',tasksNote:'خطة متابعة عبادات لمدة ٩٩ يومًا. يتم حفظ العلامات على هذا الجهاز.',taskSearch:'ابحث في المهام...',day:'اليوم',done:'مكتمل',notDone:'قيد التنفيذ',dhikrCounter:'عداد الذكر',esmaCounter:'عداد الأسماء',back:'← رجوع',reset:'إعادة',mute:'كتم الصوت',unmute:'تشغيل الصوت',resetAll:'إعادة الكل',currentRound:'الدورة الحالية',lap33:'دورات ٣٣ مكتملة',lap99:'دورات ٩٩ مكتملة',todayTotal:'إجمالي اليوم',noDua:'لا توجد أدعية للعرض',noFav:'لا توجد مفضلة',readCounter:'عداد القراءة / الذكر'}
+};
+function t(key){ return (I18N[currentLang] && I18N[currentLang][key]) || I18N.tr[key] || key; }
+const TASK_LIBRARY = [
+  {tr:'3× Ayetel Kürsi',en:'3× Ayatul Kursi',ar:'٣ مرات آية الكرسي'},
+  {tr:'99× Esmaül Hüsna zikri',en:'99× Beautiful Names dhikr',ar:'٩٩ مرة ذكر أسماء الله الحسنى'},
+  {tr:'33× Sübhanallah',en:'33× Subhanallah',ar:'٣٣ مرة سبحان الله'},
+  {tr:'33× Elhamdülillah',en:'33× Alhamdulillah',ar:'٣٣ مرة الحمد لله'},
+  {tr:'33× Allahu Ekber',en:'33× Allahu Akbar',ar:'٣٣ مرة الله أكبر'},
+  {tr:'100× Estağfirullah',en:'100× Astaghfirullah',ar:'١٠٠ مرة أستغفر الله'},
+  {tr:'10× Salavat',en:'10× Salawat',ar:'١٠ مرات صلاة على النبي'},
+  {tr:'1× Fatiha',en:'1× Al-Fatihah',ar:'مرة واحدة سورة الفاتحة'},
+  {tr:'3× İhlas',en:'3× Al-Ikhlas',ar:'٣ مرات سورة الإخلاص'},
+  {tr:'1× Felak ve Nas',en:'1× Al-Falaq and An-Nas',ar:'مرة الفلق والناس'},
+  {tr:'5 dakika dua ve tefekkür',en:'5 minutes of supplication and reflection',ar:'٥ دقائق دعاء وتفكر'},
+  {tr:'Bugün bir iyilik yap',en:'Do one good deed today',ar:'افعل خيرًا اليوم'}
+];
+function buildDailyTasks(day){
+  const a = TASK_LIBRARY[(day-1) % TASK_LIBRARY.length];
+  const b = TASK_LIBRARY[(day+2) % TASK_LIBRARY.length];
+  const c = TASK_LIBRARY[(day+5) % TASK_LIBRARY.length];
+  return [a,b,c];
+}
+function getTaskState(){ try{return JSON.parse(localStorage.getItem('tasks99_state_v1')||'{}')}catch(e){return{}} }
+function saveTaskState(state){ localStorage.setItem('tasks99_state_v1', JSON.stringify(state)); }
+function setLang(lang){
+  currentLang = lang;
+  localStorage.setItem('app_lang_v1', lang);
+  document.documentElement.lang = lang === 'ar' ? 'ar' : (lang === 'en' ? 'en' : 'tr');
+  document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('.lang-btn').forEach(function(btn){ btn.classList.toggle('active', btn.dataset.lang===lang); });
+  applyTranslations();
+  renderCurrent();
+}
+function applyTranslations(){
+  const set = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+  const ph = (id, val) => { const el=document.getElementById(id); if(el) el.placeholder=val; };
+  set('heroSub', t('heroSub'));
+  ph('searchInput', t('searchDua')); set('showAllBtn', t('showAll'));
+  const catBtns = document.querySelectorAll('.category-btn');
+  [['all','all'],['prayer','prayer'],['daily','daily'],['protection','protection'],['quranic','quranic']].forEach(function(pair,idx){ if(catBtns[idx]) catBtns[idx].textContent=t(pair[1]); });
+  set('continueBtn', t('continue'));
+  ph('esmaSearchInput', t('esmaSearch')); set('showAllEsmaBtn', t('showAll')); set('esmaFavFilterBtn', esmaFavoritesOnly ? t('allEsma') : t('onlyFav'));
+  ph('favoritesSearchInput', t('favSearch'));
+  ph('audioDuaSearchInput', t('audioSearch')); set('showAllAudioDuasBtn', t('showAll')); const note=document.querySelector('#audioDuasSection .audio-note'); if(note) note.textContent=t('audioNote'); set('stopAudioDuaBtn', t('stop'));
+  set('tasksTitle', t('tasksTitle')); set('tasksNote', t('tasksNote')); ph('tasksSearchInput', t('taskSearch')); set('showAllTasksBtn', t('showAll'));
+  set('backToListBtn', t('back')); set('detailCounterLabel', currentDetailType==='esma' ? t('esmaCounter') : t('dhikrCounter')); set('duaResetBtn', t('reset'));
+  set('navHome', t('dualar')); set('navEsma', t('esma')); set('navAudioDuas', t('audio')); set('navTasks', t('tasks')); set('navTasbih', t('tasbih')); set('navFavorites', t('favorites'));
+  const lap33=document.querySelector('.goal33-title'); if(lap33) lap33.textContent=t('lap33'); const labs=document.querySelectorAll('.goal-card .label'); if(labs[0]) labs[0].textContent=t('lap99'); if(labs[1]) labs[1].textContent=t('todayTotal');
+  set('resetTasbihBtn', t('reset')); set('resetAllTasbihBtn', t('resetAll'));
+  if(darkModeBtn) darkModeBtn.textContent = darkMode ? t('light') : t('dark');
+  if(muteBtn) muteBtn.textContent = muteSounds ? t('unmute') : t('mute');
+}
+
 function persistFavorites() {
   localStorage.setItem('favorites_v2', JSON.stringify(favoriteStore));
   favTotalStat.textContent = favoriteStore.dua.length + favoriteStore.esma.length;
@@ -277,7 +403,7 @@ function saveEsmaCounts() { localStorage.setItem('esmaCounts_v2', JSON.stringify
 
 function applyTheme(){
   document.body.classList.toggle('theme-dark', darkMode);
-  darkModeBtn.textContent = darkMode ? 'Aydınlık mod' : 'Karanlık mod';
+  darkModeBtn.textContent = darkMode ? t('light') : t('dark');
   localStorage.setItem('darkMode_clean', darkMode ? '1' : '0');
 }
 function updateContinueButton(){
@@ -286,6 +412,8 @@ function updateContinueButton(){
 function setActiveNav(which){
   navHome.classList.toggle('active', which==='home');
   navEsma.classList.toggle('active', which==='esma');
+  navAudioDuas.classList.toggle('active', which==='audio');
+  navTasks.classList.toggle('active', which==='tasks');
   navTasbih.classList.toggle('active', which==='tasbih');
   navFavorites.classList.toggle('active', which==='favorites');
 }
@@ -302,6 +430,8 @@ function toggleFavorite(type,id){
 function clearScreens(){
   homeSection.style.display='none';
   esmaSection.classList.remove('active');
+  audioDuasSection.classList.remove('active');
+  tasksSection.classList.remove('active');
   favoritesSection.classList.remove('active');
   detailSection.classList.remove('active');
   tasbihSection.classList.remove('active');
@@ -335,6 +465,126 @@ function showTasbih(){
   updateTasbih();
 }
 
+
+
+const AUDIO_DUA_ITEMS = [
+  {id:1, title:'Al-Fatihah', source:'Quran 1:1-7', files:['https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/1.mp3']},
+  {id:2, title:'Ayatul Kursi', source:'Quran 2:255', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/262.mp3']},
+  {id:3, title:'Al-Ikhlas', source:'Quran 112:1-4', files:['https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/112.mp3']},
+  {id:4, title:'Al-Falaq', source:'Quran 113:1-5', files:['https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/113.mp3']},
+  {id:5, title:'An-Nas', source:'Quran 114:1-6', files:['https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/114.mp3']},
+  {id:10, title:'Rabbana Atina', source:'Quran 2:201', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/208.mp3']},
+  {id:11, title:'Rabbighfir Li', source:'Quran 14:41', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/1791.mp3']},
+  {id:18, title:"Du'a as-Safar", source:'Quran 43:13-14', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/4338.mp3','https://cdn.islamic.network/quran/audio/128/ar.alafasy/4339.mp3']},
+  {id:24, title:'Dua of Yunus', source:'Quran 21:87', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2570.mp3']},
+  {id:25, title:'Dua of Musa for Provision', source:'Quran 28:24', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/3276.mp3']},
+  {id:26, title:'Rabbi Zidni Ilma', source:'Quran 20:114', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2462.mp3']},
+  {id:27, title:'Rabbi Ishrah Li Sadri', source:'Quran 20:25-28', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2373.mp3','https://cdn.islamic.network/quran/audio/128/ar.alafasy/2374.mp3','https://cdn.islamic.network/quran/audio/128/ar.alafasy/2375.mp3','https://cdn.islamic.network/quran/audio/128/ar.alafasy/2376.mp3']},
+  {id:28, title:'Prayer for Parents', source:'Quran 17:24', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2053.mp3']},
+  {id:42, title:'Hasbunallahu', source:'Quran 3:173', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/466.mp3']},
+  {id:43, title:'Tawakkul Dua', source:'Quran 25:58', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2913.mp3']},
+  {id:54, title:'Hasbiyallahu la ilaha illa Hu', source:'Quran 9:129', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/1364.mp3']},
+  {id:55, title:'Rabbana hablana min azwajina', source:'Quran 25:74', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2929.mp3']},
+  {id:56, title:'Rabbana atina fid-dunya hasanah', source:'Quran 2:201', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/208.mp3']},
+  {id:57, title:'Rabbish rah li sadri', source:'Quran 20:25-26', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2373.mp3','https://cdn.islamic.network/quran/audio/128/ar.alafasy/2374.mp3']},
+  {id:58, title:'Rabbi zidni ilma', source:'Quran 20:114', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2462.mp3']},
+  {id:59, title:'Rabbana la tuzigh qulubana', source:'Quran 3:8', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/301.mp3']},
+  {id:60, title:'Rabbi inni lima anzalta ilayya', source:'Quran 28:24', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/3276.mp3']},
+  {id:70, title:"Rabbana afrigh 'alayna sabran", source:'Quran 7:126', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/1080.mp3']}
+];
+let audioDuaPlayer = new Audio();
+let audioDuaQueue = [];
+let audioDuaIndex = 0;
+function stopAudioDua(){
+  audioDuaQueue = [];
+  audioDuaIndex = 0;
+  audioDuaPlayer.pause();
+  audioDuaPlayer.removeAttribute('src');
+  audioPlayerTitle.textContent = t('chooseAudio');
+}
+function playAudioDua(item){
+  stopAudioDua();
+  audioDuaQueue = [].concat(item.files);
+  audioDuaIndex = 0;
+  audioPlayerTitle.textContent = t('playing') + item.title;
+  playNextAudioDuaFile();
+}
+function playNextAudioDuaFile(){
+  if(audioDuaIndex >= audioDuaQueue.length){ audioPlayerTitle.textContent = t('completed'); return; }
+  audioDuaPlayer.src = audioDuaQueue[audioDuaIndex];
+  audioDuaIndex += 1;
+  audioDuaPlayer.play().catch(function(){ audioPlayerTitle.textContent = t('audioError'); });
+}
+audioDuaPlayer.addEventListener('ended', playNextAudioDuaFile);
+function renderAudioDuas(){
+  const term = (audioDuaSearchInput.value || '').trim().toLowerCase();
+  const items = AUDIO_DUA_ITEMS.map(function(item){ return Object.assign({}, item, {dua: duas.find(function(d){ return d.id===item.id; })}); }).filter(function(item){ return item.dua; });
+  const filtered = term ? items.filter(function(item){ return item.title.toLowerCase().includes(term) || item.source.toLowerCase().includes(term) || item.dua.subtitle.toLowerCase().includes(term) || item.dua.translit.toLowerCase().includes(term) || item.dua.turkish.toLowerCase().includes(term) || (item.dua.english||'').toLowerCase().includes(term); }) : items;
+  audioDuaList.innerHTML = '';
+  if(!filtered.length){ audioDuaList.innerHTML = '<div class="dua-card"><h3>'+t('noAudio')+'</h3><p>'+t('changeSearch')+'</p></div>'; return; }
+  filtered.forEach(function(item){
+    const card = document.createElement('div');
+    card.className = 'dua-card';
+    card.innerHTML = '<div class="dua-top"><div class="dua-meta"><div class="dua-index">'+item.id+'</div><div><h3>'+item.title+'</h3><p>'+item.dua.subtitle+' • '+item.source+'</p><div class="audio-card-actions"><button class="audio-play-btn" type="button">'+t('playScholar')+'</button><button class="audio-stop-btn" type="button">'+t('stop')+'</button></div></div></div></div>';
+    card.querySelector('.audio-play-btn').addEventListener('click', function(e){ e.stopPropagation(); playAudioDua(item); });
+    card.querySelector('.audio-stop-btn').addEventListener('click', function(e){ e.stopPropagation(); stopAudioDua(); });
+    card.addEventListener('click', function(){ openDuaDetail(item.id); });
+    audioDuaList.appendChild(card);
+  });
+}
+function showAudioDuas(){
+  currentSection='audio';
+  clearScreens();
+  audioDuasSection.classList.add('active');
+  setActiveNav('audio');
+  renderAudioDuas();
+}
+
+function showTasks(){
+  currentSection='tasks';
+  clearScreens();
+  tasksSection.classList.add('active');
+  setActiveNav('tasks');
+  renderTasks();
+}
+function renderTasks(){
+  const state = getTaskState();
+  const term = (tasksSearchInput.value || '').trim().toLowerCase();
+  tasksList.innerHTML = '';
+  let completedDays = 0;
+  for(let day=1; day<=99; day++){
+    const items = buildDailyTasks(day);
+    const dayDone = items.every(function(_, idx){ return !!state[day+'_'+idx]; });
+    if(dayDone) completedDays++;
+  }
+  tasksProgress.textContent = completedDays + ' / 99';
+  for(let day=1; day<=99; day++){
+    const items = buildDailyTasks(day);
+    const searchable = (t('day')+' '+day+' '+items.map(x=>x.tr+' '+x.en+' '+x.ar).join(' ')).toLowerCase();
+    if(term && !searchable.includes(term)) continue;
+    const card = document.createElement('div');
+    const dayDone = items.every(function(_, idx){ return !!state[day+'_'+idx]; });
+    card.className = 'task-card' + (dayDone ? ' done' : '');
+    card.innerHTML = '<h3>'+t('day')+' '+day+' • '+(dayDone ? t('done') : t('notDone'))+'</h3><div class="task-items"></div>';
+    const list = card.querySelector('.task-items');
+    items.forEach(function(item, idx){
+      const key = day+'_'+idx;
+      const label = item[currentLang] || item.tr;
+      const row = document.createElement('label');
+      row.className = 'task-check';
+      row.innerHTML = '<input type="checkbox" '+(state[key]?'checked':'')+'><span>'+label+'</span>';
+      row.querySelector('input').addEventListener('change', function(e){
+        const s = getTaskState();
+        s[key] = e.target.checked;
+        saveTaskState(s);
+        renderTasks();
+      });
+      list.appendChild(row);
+    });
+    tasksList.appendChild(card);
+  }
+}
+
 function renderList(){
   let filtered=[...duas];
   if(currentCategory!=='all') filtered=filtered.filter(d=>d.category===currentCategory);
@@ -350,7 +600,7 @@ function renderList(){
   }
   duaList.innerHTML='';
   if(!filtered.length){
-    duaList.innerHTML='<div class="dua-card"><h3>Gösterilecek dua yok</h3><p>Aramanı veya kategoriyi değiştir.</p></div>';
+    duaList.innerHTML='<div class="dua-card"><h3>'+t('noDua')+'</h3><p>'+t('changeSearch')+'</p></div>';
     return;
   }
   filtered.forEach(dua=>{
@@ -403,7 +653,7 @@ function renderEsmaList(){
         <div>
           <h3>${item.title}</h3>
           <p>${item.english}</p>
-          <p>Okuma / zikir sayacı: ${count}</p>
+          <p>${t('readCounter')}: ${count}</p>
           <span class="badge">${item.turkish}</span>
         </div>
       </div>
@@ -442,7 +692,7 @@ function renderFavorites(){
           <div>
             <h3>${item.title}</h3>
             <p>${item.subtitle} • ${item.source}</p>
-            <p>Okuma / zikir sayacı: ${count}</p>
+            <p>${t('readCounter')}: ${count}</p>
           </div>
         </div>
         <button class="fav-btn">★</button>
@@ -455,7 +705,7 @@ function renderFavorites(){
           <div>
             <h3>${item.title}</h3>
             <p>${item.english}</p>
-            <p>Okuma / zikir sayacı: ${count}</p>
+            <p>${t('readCounter')}: ${count}</p>
           </div>
         </div>
         <button class="fav-btn">★</button>
@@ -479,7 +729,7 @@ function openDuaDetail(id){
   detailTranslit.textContent=dua.translit;
   detailTurkish.textContent=dua.turkish;
   detailEnglish.textContent=dua.english || 'English translation not available.';
-  detailCounterLabel.textContent='Zikir sayacı';
+  detailCounterLabel.textContent=t('dhikrCounter');
   updateDetailCounter();
   clearScreens(); detailSection.classList.add('active');
   setActiveNav(currentSection==='favorites' ? 'favorites' : 'home');
@@ -497,7 +747,7 @@ function openEsmaDetail(id){
   detailTranslit.textContent=item.title;
   detailTurkish.textContent=item.turkish;
   detailEnglish.textContent=item.english;
-  detailCounterLabel.textContent='Esma sayacı';
+  detailCounterLabel.textContent=t('esmaCounter');
   updateDetailCounter();
   clearScreens(); detailSection.classList.add('active');
   setActiveNav(currentSection==='favorites' ? 'favorites' : 'esma');
@@ -559,7 +809,7 @@ function updateTasbih(){
   const current33 = mod33===0 && tasbihCount>0 ? 33 : mod33;
   const pct = Math.min((current33/33)*100, 100);
   progressFill.style.width = pct + '%';
-  goalText.textContent = `Mevcut tur: ${current33} / 33`;
+  goalText.textContent = `${t('currentRound')}: ${current33} / 33`;
   const lap33 = Math.floor(tasbihCount/33);
   const lap99 = Math.floor(tasbihCount/99);
   tasbihLap33El.textContent = lap33;
@@ -579,22 +829,32 @@ function incrementTasbih(){
 function renderCurrent(){
   if(currentSection==='home') renderList();
   else if(currentSection==='esma') renderEsmaList();
+  else if(currentSection==='audio') renderAudioDuas();
+  else if(currentSection==='tasks') renderTasks();
   else if(currentSection==='favorites') renderFavorites();
   favTotalStat.textContent = favoriteStore.dua.length + favoriteStore.esma.length;
 }
 
 document.getElementById('backToListBtn').onclick = goBackFromDetail;
 document.getElementById('showAllBtn').onclick = ()=>{ currentCategory='all'; categoryButtons.forEach((b,i)=>b.classList.toggle('active', i===0)); renderList(); };
-document.getElementById('showAllEsmaBtn').onclick = ()=>{ esmaSearchInput.value=''; esmaFavoritesOnly=false; document.getElementById('esmaFavFilterBtn').textContent='Sadece favoriler'; renderEsmaList(); };
-document.getElementById('esmaFavFilterBtn').onclick = ()=>{ esmaFavoritesOnly=!esmaFavoritesOnly; document.getElementById('esmaFavFilterBtn').textContent = esmaFavoritesOnly ? 'Tüm Esmalar' : 'Sadece favoriler'; renderEsmaList(); };
+document.getElementById('showAllEsmaBtn').onclick = ()=>{ esmaSearchInput.value=''; esmaFavoritesOnly=false; document.getElementById('esmaFavFilterBtn').textContent=t('onlyFav'); renderEsmaList(); };
+document.getElementById('esmaFavFilterBtn').onclick = ()=>{ esmaFavoritesOnly=!esmaFavoritesOnly; document.getElementById('esmaFavFilterBtn').textContent = esmaFavoritesOnly ? t('allEsma') : t('onlyFav'); renderEsmaList(); };
 navHome.onclick = ()=> showHome('all');
 navEsma.onclick = ()=> showEsma();
+navAudioDuas.onclick = ()=> showAudioDuas();
+navTasks.onclick = ()=> showTasks();
 navFavorites.onclick = ()=> showFavorites();
 navTasbih.onclick = ()=> showTasbih();
 categoryButtons.forEach(btn=>btn.onclick=()=>{ currentCategory=btn.dataset.category; categoryButtons.forEach(b=>b.classList.toggle('active', b===btn)); renderList(); });
 searchInput.addEventListener('input', renderList);
 esmaSearchInput.addEventListener('input', renderEsmaList);
 favoritesSearchInput.addEventListener('input', renderFavorites);
+audioDuaSearchInput.addEventListener('input', renderAudioDuas);
+tasksSearchInput.addEventListener('input', renderTasks);
+document.getElementById('showAllAudioDuasBtn').onclick = ()=>{ audioDuaSearchInput.value=''; renderAudioDuas(); };
+document.getElementById('showAllTasksBtn').onclick = ()=>{ tasksSearchInput.value=''; renderTasks(); };
+document.getElementById('stopAudioDuaBtn').onclick = stopAudioDua;
+document.querySelectorAll('.lang-btn').forEach(function(btn){ btn.addEventListener('click', function(){ setLang(btn.dataset.lang); }); });
 continueBtn.onclick = ()=> {
   if(!lastOpened) return;
   if(lastOpened.type==='dua') openDuaDetail(lastOpened.id);
@@ -604,7 +864,7 @@ darkModeBtn.onclick = ()=> { darkMode = !darkMode; applyTheme(); };
 muteBtn.onclick = ()=> {
   muteSounds = !muteSounds;
   localStorage.setItem('muteSounds_clean', muteSounds ? '1' : '0');
-  muteBtn.textContent = muteSounds ? 'Sesi Aç' : 'Sesi Kapat';
+  muteBtn.textContent = muteSounds ? t('unmute') : t('mute');
 };
 document.getElementById('tapTasbihBtn').onclick = incrementTasbih;
 document.getElementById('resetTasbihBtn').onclick = ()=> { tasbihCount = 0; previousTasbihCount = 0; updateTasbih(); };
@@ -615,8 +875,8 @@ duaPlusBtn.onclick = ()=> bumpDetailCounter(1);
 duaMinusBtn.onclick = ()=> bumpDetailCounter(-1);
 duaResetBtn.onclick = resetDetailCounter;
 
-muteBtn.textContent = muteSounds ? 'Sesi Aç' : 'Sesi Kapat';
-applyTheme(); updateContinueButton(); persistFavorites(); renderList(); updateTasbih();
+muteBtn.textContent = muteSounds ? t('unmute') : t('mute');
+applyTheme(); setLang(currentLang); updateContinueButton(); persistFavorites(); renderList(); updateTasbih();
 </script>
 </body>
 </html>
