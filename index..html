@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#1b5e20" />
+<title>Dua • Prayer • دعاء</title>
+<style>
+:root{
+  --green-900:#0d3b12;--green-800:#1b5e20;--green-700:#2e7d32;--gold:#c9a227;--gold-soft:#e7d48a;
+  --text:#1f2937;--muted:#6b7280;--border:#e5e7eb;--card:#ffffff;--soft:#fff8e6;
+  --shadow:0 10px 30px rgba(0,0,0,.08);--radius:18px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#f8f7f2 0%,#f2efe4 100%);color:var(--text)}
+body.theme-dark{
+  --text:#e5e7eb;--muted:#9ca3af;--border:#334155;--card:#111827;--soft:#0f172a;
+  --shadow:0 10px 30px rgba(0,0,0,.28);
+  background:linear-gradient(180deg,#0f172a 0%,#111827 100%);
+}
+.app{max-width:920px;margin:0 auto;min-height:100vh;padding:16px 16px 180px}
+.hero{background:linear-gradient(135deg,var(--green-900),var(--green-700));color:#fff;border-radius:28px;padding:22px;box-shadow:var(--shadow);border:2px solid rgba(201,162,39,.25)}
+.hero-badge{display:inline-block;background:rgba(201,162,39,.16);color:var(--gold-soft);border:1px solid rgba(201,162,39,.35);padding:8px 12px;border-radius:999px;font-size:12px;margin-bottom:14px}
+h1{font-size:30px;margin:0 0 8px;line-height:1.2}
+.sub{margin:0;color:#ecfdf3;line-height:1.5;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:12px;text-align:center}
+.stat strong{display:block;font-size:18px;margin-bottom:4px;color:var(--gold-soft)}
+.toolbar,.toolbar-pro{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 12px}
+.toolbar-pro{margin:6px 0 16px}
+.search{flex:1 1 240px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 14px;font-size:15px;outline:none;color:var(--text)}
+.pill-btn,.small-pill{border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:14px;padding:12px 14px;font-size:14px;cursor:pointer}
+.small-pill{border-radius:999px;padding:10px 14px;font-size:13px}
+.category-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0 10px}
+.category-btn{border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:16px;padding:14px 10px;text-align:center;cursor:pointer;box-shadow:var(--shadow);font-weight:bold}
+.category-btn.active{border-color:rgba(201,162,39,.55);background:rgba(201,162,39,.12);color:#8a6d0d}
+.dua-list,.esma-list,.favorites-list{display:grid;gap:12px}
+.dua-card,.esma-card,.fav-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);cursor:pointer}
+.dua-top{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.dua-index{width:38px;height:38px;min-width:38px;border-radius:50%;background:rgba(27,94,32,.09);color:var(--green-800);display:grid;place-items:center;font-weight:bold;border:1px solid rgba(27,94,32,.16)}
+.dua-meta{display:flex;gap:12px;align-items:center;flex:1}
+.dua-card h3,.esma-card h3,.fav-card h3{margin:0 0 4px;font-size:18px}
+.dua-card p,.esma-card p,.fav-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.45}
+.fav-btn{border:1px solid rgba(201,162,39,.32);background:rgba(201,162,39,.1);color:#8a6d0d;border-radius:12px;padding:8px 10px;cursor:pointer;font-size:18px}
+.detail,.tasbih-panel,.esma-section,.favorites-section{display:none;background:linear-gradient(180deg,#fffdf5 0%,#fff6dd 100%);border:1px solid #ead48d;border-radius:28px;box-shadow:var(--shadow);padding:20px;margin-top:18px}
+.detail.active,.tasbih-panel.active,.esma-section.active,.favorites-section.active{display:block}
+.back-btn{border:none;background:rgba(27,94,32,.1);color:var(--green-800);padding:10px 14px;border-radius:12px;cursor:pointer;margin-bottom:14px;font-size:14px}
+.detail h2{margin:0 0 6px;font-size:26px}
+.detail-sub{color:var(--muted);margin-bottom:8px}
+.source{display:inline-block;background:linear-gradient(180deg,#fff4c8 0%,#efd27a 100%);border:1px solid #d6b04a;color:#6f5608;border-radius:999px;padding:6px 10px;font-size:12px;margin-bottom:14px;font-weight:700}
+.content-block{border:1px solid #ead48d;border-radius:18px;padding:16px;margin-bottom:14px;background:linear-gradient(180deg,#fff8e6 0%,#f9edc2 100%)}
+.content-block h4{margin:0 0 10px;color:var(--green-800);font-size:15px}
+.arabic{font-size:28px;line-height:1.9;text-align:right;direction:rtl;color:var(--text);white-space:pre-line}
+.translit,.translation{line-height:1.75;font-size:16px;white-space:pre-line}
+.counter-row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:12px 0 16px}
+.counter-box{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px 12px}
+.counter-num{min-width:42px;text-align:center;font-weight:bold;font-size:18px;color:var(--green-800)}
+.counter-btn{border:none;border-radius:10px;padding:10px 12px;font-size:16px;cursor:pointer;background:rgba(27,94,32,.1);color:var(--green-800)}
+.counter-btn.gold{background:rgba(201,162,39,.14);color:#8a6d0d;border:1px solid rgba(201,162,39,.45)}
+.counter-label,.goal-text,.goal33-title,.label{font-size:13px;color:var(--muted)}
+.tasbih-count{font-size:60px;font-weight:bold;color:var(--green-800);text-align:center;margin:20px 0 8px}
+.goal33-wrap{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:10px}
+.goal33-badge,.goal-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px 12px;min-width:120px;text-align:center}
+.goal33-num,.value{font-size:22px;font-weight:700;color:var(--green-800)}
+.goal-stats{display:grid;grid-template-columns:repeat(2,minmax(120px,1fr));gap:12px;margin-top:12px}
+.progress{width:100%;height:12px;background:#ece8dc;border-radius:999px;overflow:hidden;margin-bottom:10px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),#e2c053);width:0%;transition:width .2s ease}
+.tap-btn{width:220px;height:220px;border-radius:50%;border:4px solid rgba(201,162,39,.5);background:radial-gradient(circle at top,#2f7b35,var(--green-900));color:#fff;font-size:26px;font-weight:bold;display:block;margin:0 auto;cursor:pointer;box-shadow:0 18px 36px rgba(13,59,18,.25)}
+.secondary-btn{display:inline-block;margin:14px auto 0;border:none;border-radius:12px;padding:12px 14px;font-size:14px;cursor:pointer;background:rgba(201,162,39,.14);color:#8a6d0d;border:1px solid rgba(201,162,39,.45)}
+.switch-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:14px 0 6px}
+.bottom-nav{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;width:min(920px,calc(100% - 24px));background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow);padding:10px;display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+body.theme-dark .bottom-nav{background:rgba(17,24,39,.95)}
+.nav-btn{border:none;background:transparent;border-radius:14px;padding:12px 10px;cursor:pointer;color:var(--muted);font-weight:bold}
+.nav-btn.active{background:rgba(27,94,32,.09);color:var(--green-800)}
+.ad-note{font-size:12px;color:var(--muted);text-align:center;margin-top:10px}
+.toast33,.toast99{position:fixed;left:50%;transform:translateX(-50%);padding:10px 16px;border-radius:12px;font-size:14px;display:none;z-index:9999;font-weight:700}
+.toast33{bottom:90px;background:#1b5e20;color:#fff}
+.toast99{bottom:140px;background:#c9a227;color:#1b1b1b}
+.hidden{display:none!important}
+.esma-row{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.esma-arabic{font-size:26px;color:var(--green-800);direction:rtl;white-space:nowrap}
+.badge{display:inline-block;margin-top:8px;padding:5px 10px;border-radius:999px;background:rgba(27,94,32,.08);border:1px solid rgba(27,94,32,.15);font-size:12px;color:var(--green-800)}
+@media (max-width:700px){
+  .stats,.category-grid{grid-template-columns:1fr 1fr}
+  h1{font-size:24px}
+  .arabic{font-size:24px}
+  .tasbih-count{font-size:50px}
+  .tap-btn{width:190px;height:190px}
+  .bottom-nav{grid-template-columns:repeat(6,1fr);gap:4px}
+  .nav-btn{font-size:12px;padding:10px 4px}
+}
+body.theme-dark .detail,body.theme-dark .tasbih-panel,body.theme-dark .content-block,body.theme-dark .source,body.theme-dark .esma-section,body.theme-dark .favorites-section{
+  background:#111827 !important;color:#e5e7eb !important;border-color:#334155 !important;
+}
+
+.audio-dua-section{display:none;background:linear-gradient(180deg,#fffdf5 0%,#fff6dd 100%);border:1px solid #ead48d;border-radius:28px;box-shadow:var(--shadow);padding:20px;margin-top:18px}
+.audio-dua-section.active{display:block}
+.audio-player-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:14px;margin:12px 0 16px;box-shadow:var(--shadow)}
+.audio-player-title{flex:1;min-width:190px;font-weight:700;color:var(--green-800)}
+.audio-play-btn{border:none;background:var(--green-800);color:#fff;border-radius:12px;padding:10px 12px;cursor:pointer;font-weight:bold}
+.audio-stop-btn{border:none;background:rgba(201,162,39,.18);color:#7a5d07;border:1px solid rgba(201,162,39,.45);border-radius:12px;padding:10px 12px;cursor:pointer;font-weight:bold}
+.audio-note{font-size:13px;color:var(--muted);line-height:1.5;margin:0 0 12px}
+.audio-card-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+body.theme-dark .audio-dua-section{background:#111827 !important;color:#e5e7eb !important;border-color:#334155 !important}
+
+.lang-switch{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.lang-btn{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;padding:9px 12px;font-weight:700;cursor:pointer}
+.lang-btn.active{background:var(--gold);color:#1b1b1b;border-color:rgba(255,255,255,.4)}
+.tasks-section{display:none;background:linear-gradient(180deg,#fffdf5 0%,#fff6dd 100%);border:1px solid #ead48d;border-radius:28px;box-shadow:var(--shadow);padding:20px;margin-top:18px}
+.tasks-section.active{display:block}
+.tasks-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.tasks-progress{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);font-weight:700;color:var(--green-800)}
+.task-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:15px;box-shadow:var(--shadow);margin-bottom:12px}
+.task-card.done{border-color:rgba(27,94,32,.35);background:rgba(27,94,32,.06)}
+.task-card h3{margin:0 0 8px;font-size:18px}
+.task-items{display:grid;gap:8px;margin-top:10px}
+.task-check{display:flex;gap:10px;align-items:flex-start;line-height:1.45;color:var(--text)}
+.task-check input{width:20px;height:20px;min-width:20px;accent-color:#1b5e20;margin-top:1px}
+body.theme-dark .tasks-section{background:#111827 !important;color:#e5e7eb !important;border-color:#334155 !important}
+@media (max-width:700px){.nav-btn{font-size:11px;padding:9px 2px}.lang-btn{padding:8px 10px}}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="hero">
+    <div class="hero-badge">☪️ Onur Bilal Tardu Versiyonu • Geliştirilmiş</div>
+    <h1>Dua • Prayer • دعاء</h1>
+    <p class="sub" id="heroSub">70 Dua • 99 Esmaül Hüsna • Sesli Dualar • 99 Günlük Görev</p>
+    <div class="lang-switch" aria-label="Language selection"><button class="lang-btn active" id="langTr" data-lang="tr">TR Türkçe</button><button class="lang-btn" id="langEn" data-lang="en">EN English</button><button class="lang-btn" id="langAr" data-lang="ar">AR العربية</button></div>
+    <div class="stats">
+      <div class="stat"><strong>70</strong><span>Dua</span></div>
+      <div class="stat"><strong>99</strong><span>Esma</span></div>
+      <div class="stat"><strong>4</strong><span>Dil</span></div>
+      <div class="stat"><strong id="favTotalStat">0</strong><span>Favori</span></div>
+    </div>
+  </section>
+
+  <section id="homeSection">
+    <div class="toolbar">
+      <input class="search" id="searchInput" placeholder="Dua ara..." />
+      <button class="pill-btn" id="showAllBtn">Tümünü Göster</button>
+    </div>
+    <div class="category-grid">
+      <button class="category-btn active" data-category="all">Tümü</button>
+      <button class="category-btn" data-category="prayer">Namaz</button>
+      <button class="category-btn" data-category="daily">Günlük</button>
+      <button class="category-btn" data-category="protection">Korunma</button>
+      <button class="category-btn" data-category="quranic">Kur'an</button>
+    </div>
+    <div class="toolbar-pro">
+      <button class="small-pill hidden" id="continueBtn">Kaldığın yerden devam</button>
+      <button class="small-pill" id="darkModeBtn">Karanlık mod</button>
+    </div>
+    <div class="dua-list" id="duaList"></div>
+  </section>
+
+  <section class="esma-section" id="esmaSection">
+    <div class="toolbar">
+      <input class="search" id="esmaSearchInput" placeholder="Esma ara..." />
+      <button class="pill-btn" id="showAllEsmaBtn">Tümünü Göster</button>
+    </div>
+    <div class="toolbar-pro">
+      <button class="small-pill" id="esmaFavFilterBtn">Sadece favoriler</button>
+    </div>
+    <div class="esma-list" id="esmaList"></div>
+  </section>
+
+  <section class="favorites-section" id="favoritesSection">
+    <div class="toolbar">
+      <input class="search" id="favoritesSearchInput" placeholder="Favorilerde ara..." />
+    </div>
+    <div class="favorites-list" id="favoritesList"></div>
+  </section>
+
+
+
+  <section class="audio-dua-section" id="audioDuasSection">
+    <div class="toolbar">
+      <input class="search" id="audioDuaSearchInput" placeholder="Sesli dua ara..." />
+      <button class="pill-btn" id="showAllAudioDuasBtn">Tümünü Göster</button>
+    </div>
+    <p class="audio-note">Burada sadece doğru eşleşen gerçek hoca sesleri bulunur. Normal 70 dua listesi değiştirilmedi.</p>
+    <div class="audio-player-bar" id="audioPlayerBar">
+      <div class="audio-player-title" id="audioPlayerTitle">Bir sesli dua seç</div>
+      <button class="audio-stop-btn" id="stopAudioDuaBtn">⏹ Durdur</button>
+    </div>
+    <div class="dua-list" id="audioDuaList"></div>
+  </section>
+
+  <section class="tasks-section" id="tasksSection">
+    <div class="tasks-head">
+      <div>
+        <h2 id="tasksTitle" style="margin:0 0 6px">Görevler</h2>
+        <p class="audio-note" id="tasksNote">99 günlük ibadet takip planı. Tikler cihazda kaydedilir.</p>
+      </div>
+      <div class="tasks-progress" id="tasksProgress">0 / 99</div>
+    </div>
+    <div class="toolbar">
+      <input class="search" id="tasksSearchInput" placeholder="Görev ara..." />
+      <button class="pill-btn" id="showAllTasksBtn">Tümünü Göster</button>
+    </div>
+    <div id="tasksList"></div>
+  </section>
+
+  <section class="detail" id="detailSection">
+    <button class="back-btn" id="backToListBtn">← Geri Dön</button>
+    <h2 id="detailTitle"></h2>
+    <div class="detail-sub" id="detailSubtitle"></div>
+    <div class="source" id="detailSource"></div>
+
+    <div class="counter-row">
+      <div>
+        <div class="counter-label" id="detailCounterLabel">Zikir sayacı</div>
+        <div class="counter-box">
+          <button class="counter-btn" id="duaMinusBtn">-</button>
+          <div class="counter-num" id="duaCountNum">0</div>
+          <button class="counter-btn gold" id="duaPlusBtn">+1</button>
+          <button class="counter-btn" id="duaResetBtn">Sıfırla</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-block"><h4>Arabic</h4><div class="arabic" id="detailArabic"></div></div>
+    <div class="content-block"><h4>Transliteration</h4><div class="translit" id="detailTranslit"></div></div>
+    <div class="content-block"><h4>Turkish</h4><div class="translation" id="detailTurkish"></div></div>
+    <div class="content-block"><h4>English</h4><div class="translation" id="detailEnglish"></div></div>
+  </section>
+
+  <section class="tasbih-panel" id="tasbihSection">
+    <div class="tasbih-count" id="tasbihCount">0</div>
+    <div class="goal33-wrap">
+      <div class="goal33-badge">
+        <div class="goal33-title">33 tamamlanan tur</div>
+        <div class="goal33-num" id="tasbihLap33">0</div>
+      </div>
+    </div>
+    <div class="goal-stats">
+      <div class="goal-card">
+        <div class="label">99 tamamlanan tur</div>
+        <div class="value" id="tasbihLap99">0</div>
+      </div>
+      <div class="goal-card">
+        <div class="label">Bugünkü toplam</div>
+        <div class="value" id="tasbihToday">0</div>
+      </div>
+    </div>
+    <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="goal-text" id="goalText">0 / 33</div>
+    <button class="tap-btn" id="tapTasbihBtn">Tap</button>
+    <div class="switch-row">
+      <button class="secondary-btn" id="resetTasbihBtn">Sıfırla</button>
+      <button class="secondary-btn" id="resetAllTasbihBtn">Tümünü Sıfırla</button>
+      <button class="secondary-btn" id="muteBtn">Sesi Kapat</button>
+    </div>
+  </section>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-btn active" id="navHome">Dualar</button>
+  <button class="nav-btn" id="navEsma">Esma</button>
+  <button class="nav-btn" id="navAudioDuas">Sesli</button>
+  <button class="nav-btn" id="navTasks">Görev</button>
+  <button class="nav-btn" id="navTasbih">Tesbih</button>
+  <button class="nav-btn" id="navFavorites">Favoriler</button>
+</nav>
+
+<script id="duasData" type="application/json">[{"id": 1, "category": "protection", "title": "Al-Fatihah", "subtitle": "Opening Surah", "arabic": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\nالْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ\nالرَّحْمَٰنِ الرَّحِيمِ\nمَالِكِ يَوْمِ الدِّينِ\nإِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ\nاهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ\nصِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ\nغَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ", "translit": "Bismillahir-rahmanir-rahim.\nAlhamdu lillahi rabbil-'alamin.\nAr-rahmanir-rahim.\nMaliki yawmid-din.\nIyyaka na'budu wa iyyaka nasta'in.\nIhdinas-siratal-mustaqim.\nSiratal-ladhina an'amta 'alayhim.\nGhayril-maghdubi 'alayhim wa lad-dallin.", "turkish": "Rahmân ve Rahîm olan Allah'ın adıyla.\nHamd, âlemlerin Rabbi Allah'a mahsustur.\nO, Rahmân'dır, Rahîm'dir.\nDin gününün sahibidir.\nYalnız sana ibadet eder, yalnız senden yardım dileriz.\nBizi dosdoğru yola ilet.\nNimet verdiklerinin yoluna; gazaba uğrayanların ve sapanların yoluna değil.", "english": "In the name of Allah, the Most Compassionate, the Most Merciful.\nAll praise is for Allah—Lord of all worlds,\nThe Most Compassionate, the Most Merciful,\nMaster of the Day of Judgment.\nYou alone we worship and You alone we ask for help.\nGuide us to the straight path,\nThe path of those You have blessed—not those who have earned Your anger or gone astray.", "source": "Quran 1:1-7"}, {"id": 2, "category": "protection", "title": "Ayatul Kursi", "subtitle": "Protection Verse", "arabic": "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ", "translit": "Allahu la ilaha illa huwal-hayyul-qayyum. La ta'khudhuhu sinatun wa la nawm. Lahu ma fis-samawati wa ma fil-ard. Man dhal-ladhi yashfa'u 'indahu illa bi-idhnih. Ya'lamu ma bayna aydihim wa ma khalfahum. Wa la yuhituna bi shay'im-min 'ilmihi illa bima sha'. Wasi'a kursiyyuhus-samawati wal-ard. Wa la ya'uduhu hifzuhuma. Wa huwal-'aliyyul-'azim.", "turkish": "Allah, kendisinden başka ilâh olmayandır; diridir, kayyumdur. O'nu ne uyuklama tutar ne de uyku. Göklerde ve yerde ne varsa O'nundur. İzni olmadan katında kim şefaat edebilir? Onların önlerindekini de arkalarındakini de bilir. O'nun ilminden, kendisinin dilediği kadarından başka hiçbir şeyi kavrayamazlar. O'nun kürsüsü gökleri ve yeri kaplamıştır. Bunları koruyup gözetmek O'na ağır gelmez. O, yücedir, büyüktür.", "english": "Allah! There is no god worthy of worship except Him, the Ever-Living, All-Sustaining.\nNeither drowsiness nor sleep overtakes Him.\nTo Him belongs whatever is in the heavens and whatever is on the earth.\nWho could intercede with Him without His permission?\nHe knows what is before them and what is behind them.\nThey do not grasp anything of His knowledge except what He wills.\nHis Kursi extends over the heavens and the earth, and preserving them never tires Him.\nHe is the Most High, the Most Great.", "source": "Quran 2:255"}, {"id": 3, "category": "protection", "title": "Al-Ikhlas", "subtitle": "Sincerity Surah", "arabic": "قُلْ هُوَ اللَّهُ أَحَدٌ\nاللَّهُ الصَّمَدُ\nلَمْ يَلِدْ وَلَمْ يُولَدْ\nوَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ", "translit": "Qul huwa Allahu ahad. Allahu-s-samad. Lam yalid wa lam yulad. Wa lam yakun lahu kufuwan ahad.", "turkish": "De ki: O Allah birdir. Allah sameddir. Doğurmamış ve doğmamıştır. Hiçbir şey O'na denk değildir.", "english": "Say: He is Allah, the One.\nAllah, the Eternal Refuge.\nHe neither begets nor is born,\nAnd there is none comparable to Him.", "source": "Quran 112:1-4"}, {"id": 4, "category": "protection", "title": "Al-Falaq", "subtitle": "Daybreak Surah", "arabic": "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ\nمِنْ شَرِّ مَا خَلَقَ\nوَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ\nوَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ\nوَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ", "translit": "Qul a'udhu bi rabbil-falaq. Min sharri ma khalaq. Wa min sharri ghasiqin idha waqab. Wa min sharrin-naffathati fil-'uqad. Wa min sharri hasidin idha hasad.", "turkish": "De ki: Sığınırım ben tan yerini ağartan Rabbe, yarattığı şeylerin şerrinden, karanlığı çöktüğü zaman gecenin şerrinden, düğümlere üfleyenlerin şerrinden ve kıskandığı zaman kıskanç kişinin şerrinden.", "english": "Say: I seek refuge in the Lord of daybreak,\nFrom the evil of what He created,\nFrom the evil of the darkness when it settles,\nFrom the evil of those who blow on knots,\nAnd from the evil of an envier when he envies.", "source": "Quran 113:1-5"}, {"id": 5, "category": "protection", "title": "An-Nas", "subtitle": "Mankind Surah", "arabic": "قُلْ أَعُوذُ بِرَبِّ النَّاسِ\nمَلِكِ النَّاسِ\nإِلَٰهِ النَّاسِ\nمِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ\nالَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ\nمِنَ الْجِنَّةِ وَالنَّاسِ", "translit": "Qul a'udhu bi rabbin-nas. Malikin-nas. Ilahin-nas. Min sharril-waswasil-khannas. Alladhi yuwaswisu fi sudurin-nas. Minal-jinnati wan-nas.", "turkish": "De ki: Sığınırım insanların Rabbine, insanların hükümdarına, insanların ilâhına, o sinsi vesvesecinin şerrinden; ki insanların göğüslerine vesvese verir, gerek cinlerden gerek insanlardan.", "english": "Say: I seek refuge in the Lord of mankind,\nThe King of mankind,\nThe God of mankind,\nFrom the evil of the whisperer who withdraws,\nWho whispers into the hearts of mankind,\nFrom among jinn and mankind.", "source": "Quran 114:1-6"}, {"id": 6, "category": "prayer", "title": "Subhanaka", "subtitle": "Opening Prayer in Salah", "arabic": "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ وَتَبَارَكَ اسْمُكَ وَتَعَالَىٰ جَدُّكَ وَلَا إِلَٰهَ غَيْرُكَ", "translit": "Subhanakallahumma wa bihamdika wa tabarakasmuka wa ta'ala jadduka wa la ilaha ghayruk.", "turkish": "Allah'ım! Seni hamdinle tesbih ederim. Senin ismin mübarektir. Şânın çok yücedir. Senden başka ilâh yoktur.", "english": "O Allah, glory and praise be to You. Blessed is Your name, exalted is Your majesty, and there is no god besides You.", "source": "Sunnah / Common supplication"}, {"id": 7, "category": "prayer", "title": "At-Tahiyyatu", "subtitle": "Tashahhud", "arabic": "التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ وَالطَّيِّبَاتُ\nالسَّلَامُ عَلَيْكَ أَيُّهَا النَّبِيُّ وَرَحْمَةُ اللَّهِ وَبَرَكَاتُهُ\nالسَّلَامُ عَلَيْنَا وَعَلَىٰ عِبَادِ اللَّهِ الصَّالِحِينَ\nأَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ\nوَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ", "translit": "At-tahiyyatu lillahi was-salawatu wat-tayyibat. As-salamu 'alayka ayyuhan-nabiyyu wa rahmatullahi wa barakatuh. As-salamu 'alayna wa 'ala 'ibadillahis-salihin. Ashhadu an la ilaha illallah. Wa ashhadu anna Muhammadan 'abduhu wa rasuluh.", "turkish": "Bütün hürmetler, dualar ve güzel sözler Allah'a mahsustur. Ey Nebi! Allah'ın selâmı, rahmeti ve bereketi senin üzerine olsun. Selâm bizim üzerimize ve Allah'ın salih kulları üzerine olsun. Şahitlik ederim ki Allah'tan başka ilâh yoktur. Ve yine şahitlik ederim ki Muhammed O'nun kulu ve elçisidir.", "english": "All compliments, prayers, and pure words are for Allah. Peace be upon you, O Prophet, and the mercy of Allah and His blessings. Peace be upon us and upon the righteous servants of Allah. I bear witness that there is no god except Allah, and I bear witness that Muhammad is His servant and messenger.", "source": "Sunnah / Common supplication"}, {"id": 8, "category": "prayer", "title": "Allahumma Salli", "subtitle": "Salawat", "arabic": "اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ\nكَمَا صَلَّيْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ\nإِنَّكَ حَمِيدٌ مَجِيدٌ", "translit": "Allahumma salli 'ala Muhammadin wa 'ala ali Muhammad, kama sallayta 'ala Ibrahima wa 'ala ali Ibrahim, innaka hamidun majid.", "turkish": "Allah'ım! Muhammed'e ve Muhammed'in ailesine salât et. İbrahim'e ve İbrahim'in ailesine salât ettiğin gibi. Şüphesiz sen övülmeye lâyık ve şanlısın.", "english": "O Allah, send blessings upon Muhammad and upon the family of Muhammad, as You sent blessings upon Ibrahim and the family of Ibrahim. Indeed, You are Praiseworthy, Glorious.", "source": "Sunnah / Common supplication"}, {"id": 9, "category": "prayer", "title": "Allahumma Barik", "subtitle": "Blessing Prayer", "arabic": "اللَّهُمَّ بَارِكْ عَلَىٰ مُحَمَّدٍ وَعَلَىٰ آلِ مُحَمَّدٍ\nكَمَا بَارَكْتَ عَلَىٰ إِبْرَاهِيمَ وَعَلَىٰ آلِ إِبْرَاهِيمَ\nإِنَّكَ حَمِيدٌ مَجِيدٌ", "translit": "Allahumma barik 'ala Muhammadin wa 'ala ali Muhammad, kama barakta 'ala Ibrahima wa 'ala ali Ibrahim, innaka hamidun majid.", "turkish": "Allah'ım! Muhammed'e ve Muhammed'in ailesine bereket ver. İbrahim'e ve İbrahim'in ailesine bereket verdiğin gibi. Şüphesiz sen övülmeye lâyık ve şanlısın.", "english": "O Allah, bless Muhammad and the family of Muhammad, as You blessed Ibrahim and the family of Ibrahim. Indeed, You are Praiseworthy, Glorious.", "source": "Sunnah / Common supplication"}, {"id": 10, "category": "quranic", "title": "Rabbana Atina", "subtitle": "Quranic Prayer", "arabic": "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", "translit": "Rabbana atina fid-dunya hasanatan wa fil-akhirati hasanatan wa qina 'adhaban-nar.", "turkish": "Rabbimiz! Bize dünyada da iyilik ver, ahirette de iyilik ver ve bizi ateş azabından koru.", "english": "Our Lord, grant us good in this world and good in the Hereafter, and protect us from the punishment of the Fire.", "source": "Quran 2:201"}, {"id": 11, "category": "quranic", "title": "Rabbighfir Li", "subtitle": "Forgiveness Prayer", "arabic": "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ", "translit": "Rabbighfir li wa liwalidayya wa lil-mu'minina yawma yaqumul-hisab.", "turkish": "Rabbim! Hesap gününde beni, anne babamı ve bütün müminleri bağışla.", "english": "My Lord, forgive me, my parents, and the believers on the Day the account is established.", "source": "Quran 14:41"}, {"id": 12, "category": "daily", "title": "Du'a as-Sabah", "subtitle": "Daily Morning Prayer", "arabic": "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ\nلَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ\nلَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ", "translit": "Asbahna wa asbahal-mulku lillahi wal-hamdu lillah. La ilaha illallahu wahdahu la sharika lah. Lahul-mulku wa lahul-hamdu wa huwa 'ala kulli shay'in qadir.", "turkish": "Allah'ın mülkünde sabaha ulaştık. Hamd Allah'a mahsustur. O tektir, ortağı yoktur. Mülk O'nundur, hamd O'nadır ve O her şeye gücü yetendir.", "english": "We have reached the morning in Allah's dominion, and all praise is for Allah.", "source": "Sunnah / Common supplication"}, {"id": 13, "category": "daily", "title": "Du'a al-Masa", "subtitle": "Daily Evening Prayer", "arabic": "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ\nلَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ\nلَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ", "translit": "Amsayna wa amsal-mulku lillahi wal-hamdu lillah. La ilaha illallahu wahdahu la sharika lah. Lahul-mulku wa lahul-hamdu wa huwa 'ala kulli shay'in qadir.", "turkish": "Allah'ın mülkünde akşama ulaştık. Hamd Allah'a mahsustur. O tektir, ortağı yoktur. Mülk O'nundur, hamd O'nadır ve O her şeye gücü yetendir.", "english": "We have reached the evening in Allah's dominion, and all praise is for Allah.", "source": "Sunnah / Common supplication"}, {"id": 14, "category": "daily", "title": "Du'a Qabla an-Nawm", "subtitle": "Sleep Prayer", "arabic": "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا", "translit": "Bismika Allahumma amutu wa ahya.", "turkish": "Allah'ım! Senin adınla ölür ve dirilirim.", "english": "O Allah, in Your name I die and I live.", "source": "Sunnah / Common supplication"}, {"id": 15, "category": "daily", "title": "Du'a Ba'd an-Nawm", "subtitle": "Prayer After Waking", "arabic": "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ", "translit": "Alhamdu lillahil-ladhi ahyana ba'da ma amatana wa ilayhin-nushur.", "turkish": "Bizi öldürdükten sonra dirilten Allah'a hamd olsun. Dönüş yalnız O'nadır.", "english": "All praise is for Allah who gave us life after causing us to die, and to Him is the resurrection.", "source": "Sunnah / Common supplication"}, {"id": 16, "category": "daily", "title": "Du'a Qabl at-Ta'am", "subtitle": "Meal Prayer", "arabic": "بِسْمِ اللَّهِ", "translit": "Bismillah.", "turkish": "Allah'ın adıyla.", "english": "In the name of Allah.", "source": "Sunnah / Common supplication"}, {"id": 17, "category": "daily", "title": "Du'a Ba'd at-Ta'am", "subtitle": "Gratitude After Meal", "arabic": "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مِنَ الْمُسْلِمِينَ", "translit": "Alhamdu lillahil-ladhi at'amana wa saqana wa ja'alana minal-muslimin.", "turkish": "Bizi yediren, içiren ve bizi Müslümanlardan kılan Allah'a hamd olsun.", "english": "All praise is for Allah who fed us, gave us drink, and made us among the Muslims.", "source": "Sunnah / Common supplication"}, {"id": 18, "category": "daily", "title": "Du'a as-Safar", "subtitle": "Journey Prayer", "arabic": "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ\nوَإِنَّا إِلَىٰ رَبِّنَا لَمُنْقَلِبُونَ", "translit": "Subhanalladhi sakhkhara lana hadha wa ma kunna lahu muqrinin. Wa inna ila rabbina lamunqalibun.", "turkish": "Bunu bizim hizmetimize veren Allah her türlü eksiklikten uzaktır. Biz buna güç yetiremezdik. Şüphesiz sonunda Rabbimize döneceğiz.", "english": "Glory be to the One who has subjected this for us, though we could never have accomplished it on our own.", "source": "Quran 43:13-14 / Sunnah"}, {"id": 19, "category": "protection", "title": "Du'a al-Hifz", "subtitle": "Seeking Refuge", "arabic": "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ", "translit": "A'udhu bi kalimatillahit-tammati min sharri ma khalaq.", "turkish": "Allah'ın eksiksiz kelimelerine, yarattığı şeylerin şerrinden sığınırım.", "english": "I seek refuge in the perfect words of Allah from the evil of what He has created.", "source": "Sunnah / Common supplication"}, {"id": 20, "category": "protection", "title": "Du'a ash-Shifa", "subtitle": "Healing Prayer", "arabic": "اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَأْسَ اشْفِ أَنْتَ الشَّافِي\nلَا شِفَاءَ إِلَّا شِفَاؤُكَ شِفَاءً لَا يُغَادِرُ سَقَمًا", "translit": "Allahumma rabban-nasi adhibil-ba's, ishfi antash-shafi. La shifa'a illa shifa'uk, shifa'an la yughadiru saqama.", "turkish": "Ey insanların Rabbi Allah'ım! Sıkıntıyı gider. Şifa ver. Şifa veren sensin. Senin şifandan başka şifa yoktur. Öyle bir şifa ver ki hiçbir hastalık bırakmasın.", "english": "O Allah, Lord of mankind, remove the harm and grant healing. You are the Healer.", "source": "Sunnah / Common supplication"}, {"id": 21, "category": "protection", "title": "Al-Kafirun", "subtitle": "Disavowal of Disbelief", "arabic": "قُلْ يَا أَيُّهَا الْكَافِرُونَ\nلَا أَعْبُدُ مَا تَعْبُدُونَ\nوَلَا أَنْتُمْ عَابِدُونَ مَا أَعْبُدُ\nوَلَا أَنَا عَابِدٌ مَا عَبَدْتُمْ\nوَلَا أَنْتُمْ عَابِدُونَ مَا أَعْبُدُ\nلَكُمْ دِينُكُمْ وَلِيَ دِينِ", "translit": "Qul ya ayyuhal-kafirun. La a'budu ma ta'budun. Wa la antum 'abiduna ma a'bud. Wa la ana 'abidum ma 'abattum. Wa la antum 'abiduna ma a'bud. Lakum dinukum wa liya din.", "turkish": "De ki: Ey inkâr edenler! Ben sizin taptıklarınıza tapmam. Siz de benim ibadet ettiğime ibadet etmezsiniz. Sizin dininiz size, benim dinim banadır.", "english": "Say: O disbelievers! I do not worship what you worship...", "source": "Sunnah / Common supplication"}, {"id": 22, "category": "daily", "title": "Istighfar", "subtitle": "Seeking Forgiveness", "arabic": "أَسْتَغْفِرُ اللَّهَ", "translit": "Astaghfirullah.", "turkish": "Allah'tan bağışlanma dilerim.", "english": "I seek forgiveness from Allah.", "source": "Sunnah / Common supplication"}, {"id": 23, "category": "daily", "title": "Sayyidul Istighfar", "subtitle": "Master Supplication for Forgiveness", "arabic": "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ", "translit": "Allahumma anta rabbi la ilaha illa anta, khalaqtani wa ana 'abduk, wa ana 'ala 'ahdika wa wa'dika mastata't, a'udhu bika min sharri ma sana't, abu'u laka bini'matika 'alayya, wa abu'u bidhambi faghfir li fa innahu la yaghfirudh-dhunuba illa ant.", "turkish": "Allah'ım! Sen benim Rabbimsin. Senden başka ilâh yoktur. Beni Sen yarattın ve ben Senin kulunum. Beni bağışla. Çünkü günahları Senden başka bağışlayacak yoktur.", "english": "O Allah, You are my Lord... forgive me, for none forgives sins except You.", "source": "Sunnah / Common supplication"}, {"id": 24, "category": "quranic", "title": "Dua of Yunus", "subtitle": "Prayer in Distress", "arabic": "لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ", "translit": "La ilaha illa anta subhanaka inni kuntu minaz-zalimin.", "turkish": "Senden başka ilâh yoktur. Seni tenzih ederim. Gerçekten ben zalimlerden oldum.", "english": "There is no god except You. Glory be to You. Truly, I have been among the wrongdoers.", "source": "Quran 21:87"}, {"id": 25, "category": "quranic", "title": "Dua of Musa for Provision", "subtitle": "Provision Prayer", "arabic": "رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ", "translit": "Rabbi inni lima anzalta ilayya min khayrin faqir.", "turkish": "Rabbim! Bana indireceğin her hayra muhtacım.", "english": "My Lord, indeed I am in need of whatever good You send down to me.", "source": "Quran 28:24"}, {"id": 26, "category": "quranic", "title": "Rabbi Zidni Ilma", "subtitle": "Knowledge Prayer", "arabic": "رَبِّ زِدْنِي عِلْمًا", "translit": "Rabbi zidni ilma.", "turkish": "Rabbim! Benim ilmimi artır.", "english": "My Lord, increase me in knowledge.", "source": "Quran 20:114"}, {"id": 27, "category": "quranic", "title": "Rabbi Ishrah Li Sadri", "subtitle": "Ease and Confidence Prayer", "arabic": "رَبِّ اشْرَحْ لِي صَدْرِي\nوَيَسِّرْ لِي أَمْرِي\nوَاحْلُلْ عُقْدَةً مِنْ لِسَانِي\nيَفْقَهُوا قَوْلِي", "translit": "Rabbi ishrah li sadri. Wa yassir li amri. Wahlul 'uqdatan min lisani. Yafqahu qawli.", "turkish": "Rabbim! Göğsüme ferahlık ver. İşimi bana kolaylaştır. Dilimdeki bağı çöz ki sözümü anlasınlar.", "english": "My Lord, expand my chest and ease my task.", "source": "Quran 20:25-28"}, {"id": 28, "category": "quranic", "title": "Prayer for Parents", "subtitle": "Mercy for Parents", "arabic": "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا", "translit": "Rabbirhamhuma kama rabbayani saghira.", "turkish": "Rabbim! Küçüklüğümde beni yetiştirdikleri gibi Sen de onlara merhamet et.", "english": "My Lord, have mercy upon them as they brought me up when I was small.", "source": "Quran 17:24"}, {"id": 29, "category": "daily", "title": "After Wudu Dua", "subtitle": "Prayer After Ablution", "arabic": "أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ", "translit": "Ashhadu an la ilaha illallahu wahdahu la sharika lah, wa ashhadu anna Muhammadan 'abduhu wa rasuluh.", "turkish": "Şahitlik ederim ki Allah'tan başka ilâh yoktur, O tektir, ortağı yoktur. Ve şahitlik ederim ki Muhammed O'nun kulu ve elçisidir.", "english": "I bear witness that there is no god but Allah alone with no partner, and Muhammad is His servant and messenger.", "source": "Sunnah / Common supplication"}, {"id": 30, "category": "daily", "title": "Du'a Dukhul al-Bayt", "subtitle": "Prayer for Entering Home", "arabic": "بِسْمِ اللَّهِ وَلَجْنَا وَبِسْمِ اللَّهِ خَرَجْنَا وَعَلَىٰ رَبِّنَا تَوَكَّلْنَا", "translit": "Bismillahi walajna wa bismillahi kharajna wa 'ala rabbina tawakkalna.", "turkish": "Allah'ın adıyla girdik, Allah'ın adıyla çıktık ve Rabbimize tevekkül ettik.", "english": "In the name of Allah we enter, in the name of Allah we leave, and upon our Lord we rely.", "source": "Sunnah / Common supplication"}, {"id": 31, "category": "daily", "title": "Du'a Khuruj al-Bayt", "subtitle": "Prayer for Going Out", "arabic": "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", "translit": "Bismillah, tawakkaltu 'alallah, wa la hawla wa la quwwata illa billah.", "turkish": "Allah'ın adıyla. Allah'a tevekkül ettim. Güç ve kuvvet ancak Allah'ındır.", "english": "In the name of Allah. I place my trust in Allah.", "source": "Sunnah / Common supplication"}, {"id": 32, "category": "daily", "title": "Du'a Dukhul al-Masjid", "subtitle": "Mosque Entry Prayer", "arabic": "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ", "translit": "Allahummaftah li abwaba rahmatik.", "turkish": "Allah'ım! Bana rahmetinin kapılarını aç.", "english": "O Allah, open for me the gates of Your mercy.", "source": "Sunnah / Common supplication"}, {"id": 33, "category": "daily", "title": "Du'a Khuruj al-Masjid", "subtitle": "Mosque Exit Prayer", "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ", "translit": "Allahumma inni as'aluka min fadlik.", "turkish": "Allah'ım! Senden lütfunu isterim.", "english": "O Allah, I ask You from Your bounty.", "source": "Sunnah / Common supplication"}, {"id": 34, "category": "daily", "title": "Du'a Dukhul al-Khala'", "subtitle": "Before Entering Toilet", "arabic": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ", "translit": "Allahumma inni a'udhu bika minal-khubthi wal-khaba'ith.", "turkish": "Allah'ım! Pisliklerden ve şeytanların şerrinden Sana sığınırım.", "english": "O Allah, I seek refuge in You from male and female evil spirits.", "source": "Sunnah / Common supplication"}, {"id": 35, "category": "daily", "title": "Du'a Khuruj al-Khala'", "subtitle": "After Leaving Toilet", "arabic": "غُفْرَانَكَ", "translit": "Ghufranak.", "turkish": "Bağışlamanı dilerim.", "english": "I seek Your forgiveness.", "source": "Sunnah / Common supplication"}, {"id": 36, "category": "daily", "title": "Du'a al-Libas", "subtitle": "Prayer for Clothing", "arabic": "الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَٰذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ", "translit": "Alhamdu lillahil-ladhi kasani hadha wa razaqanihi min ghayri hawlin minni wa la quwwah.", "turkish": "Bunu bana giydiren ve hiçbir güç ve kudretim olmadan bana rızık olarak veren Allah'a hamd olsun.", "english": "All praise is for Allah who clothed me with this and provided it for me.", "source": "Sunnah / Common supplication"}, {"id": 37, "category": "daily", "title": "Du'a al-Mir'ah", "subtitle": "Prayer on Looking in Mirror", "arabic": "اللَّهُمَّ كَمَا حَسَّنْتَ خَلْقِي فَحَسِّنْ خُلُقِي", "translit": "Allahumma kama hassanta khalqi fahassin khuluqi.", "turkish": "Allah'ım! Yaratılışımı güzel yaptığın gibi ahlâkımı da güzelleştir.", "english": "O Allah, just as You made my appearance beautiful, make my character beautiful.", "source": "Sunnah / Common supplication"}, {"id": 38, "category": "daily", "title": "Du'a al-Matar", "subtitle": "Prayer for Beneficial Rain", "arabic": "اللَّهُمَّ صَيِّبًا نَافِعًا", "translit": "Allahumma sayyiban nafi'a.", "turkish": "Allah'ım! Faydalı bir yağmur eyle.", "english": "O Allah, make it a beneficial rain.", "source": "Sunnah / Common supplication"}, {"id": 39, "category": "daily", "title": "Du'a al-Iftar", "subtitle": "Iftar Prayer", "arabic": "ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ", "translit": "Dhahabaz-zama'u wabtallatil-'uruqu wa thabatal-ajru in sha' Allah.", "turkish": "Susuzluk gitti, damarlar ıslandı ve ecir inşallah sabit oldu.", "english": "The thirst has gone, the veins are moistened, and the reward is confirmed, if Allah wills.", "source": "Sunnah / Common supplication"}, {"id": 40, "category": "prayer", "title": "Du'a al-Qunut", "subtitle": "Witr Prayer", "arabic": "اللَّهُمَّ اهْدِنِي فِيمَنْ هَدَيْتَ وَعَافِنِي فِيمَنْ عَافَيْتَ وَتَوَلَّنِي فِيمَنْ تَوَلَّيْتَ", "translit": "Allahummahdini fiman hadayt, wa 'afini fiman 'afayt, wa tawallani fiman tawallayt.", "turkish": "Allah'ım! Hidayet ettiklerin arasında bana da hidayet ver, afiyet verdiklerin arasında bana da afiyet ver, dost edindiklerin arasında beni de dost edin.", "english": "O Allah, guide me among those You have guided.", "source": "Sunnah / Common supplication"}, {"id": 41, "category": "daily", "title": "Du'a Ru'yat al-Hilal", "subtitle": "Prayer on Seeing New Moon", "arabic": "اللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالْأَمْنِ وَالْإِيمَانِ وَالسَّلَامَةِ وَالْإِسْلَامِ", "translit": "Allahumma ahillahu 'alayna bil-amni wal-iman was-salamati wal-islam.", "turkish": "Allah'ım! Bu hilâli bize güven, iman, selâmet ve İslâm ile doğdur.", "english": "O Allah, let this moon come upon us with security, faith, safety, and Islam.", "source": "Sunnah / Common supplication"}, {"id": 42, "category": "protection", "title": "Hasbunallahu", "subtitle": "Reliance on Allah", "arabic": "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ", "translit": "Hasbunallahu wa ni'mal-wakil.", "turkish": "Allah bize yeter, O ne güzel vekildir.", "english": "Allah is sufficient for us, and He is the best disposer of affairs.", "source": "Quran 3:173"}, {"id": 43, "category": "daily", "title": "Tawakkul Dua", "subtitle": "Trust in Allah", "arabic": "تَوَكَّلْتُ عَلَى الْحَيِّ الَّذِي لَا يَمُوتُ", "translit": "Tawakkaltu 'alal-Hayyilladhi la yamut.", "turkish": "Ölmeyen Hayy olan Allah'a tevekkül ettim.", "english": "I place my trust in the Ever-Living who does not die.", "source": "Quran 25:58"}, {"id": 44, "category": "protection", "title": "Du'a Hifz al-Awlad", "subtitle": "Dua for Children", "arabic": "أُعِيذُكُمَا بِكَلِمَاتِ اللَّهِ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ", "translit": "U'idhukuma bikalimatillahit-tammati min kulli shaytanin wa hammatin wa min kulli 'aynin lammah.", "turkish": "Sizi Allah'ın eksiksiz kelimeleriyle her şeytandan, zehirli şeyden ve dokunan her gözden koruması için Allah'a emanet ediyorum.", "english": "I seek protection for you in the perfect words of Allah from every devil and harmful eye.", "source": "Sunnah / Common supplication"}, {"id": 45, "category": "daily", "title": "Inna Lillahi", "subtitle": "Prayer in Calamity", "arabic": "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ\nاللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا", "translit": "Inna lillahi wa inna ilayhi raji'un. Allahumma'jurni fi musibati wa akhlif li khayran minha.", "turkish": "Şüphesiz biz Allah'a aidiz ve O'na döneceğiz. Allah'ım! Musibetimde bana ecir ver ve bana ondan daha hayırlısını nasip et.", "english": "Surely we belong to Allah and to Him we return.", "source": "Sunnah / Common supplication"}, {"id": 46, "category": "daily", "title": "Du'a 'Iyadat al-Marid", "subtitle": "Prayer for a Sick Person", "arabic": "لَا بَأْسَ طَهُورٌ إِنْ شَاءَ اللَّهُ", "translit": "La ba'sa tahurun in sha' Allah.", "turkish": "Bir sakınca yok; inşallah bu günahlarına temizlik olur.", "english": "No harm, it is a purification, if Allah wills.", "source": "Sunnah / Common supplication"}, {"id": 47, "category": "daily", "title": "Du'a an-Nafi' wal-Fahm", "subtitle": "Ease and Benefit Prayer", "arabic": "اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي وَعَلِّمْنِي مَا يَنْفَعُنِي", "translit": "Allahumma anfa'ni bima 'allamtani wa 'allimni ma yanfa'uni.", "turkish": "Allah'ım! Bana öğrettiklerinden beni faydalandır ve bana fayda verecek şeyleri öğret.", "english": "O Allah, benefit me with what You taught me, and teach me what benefits me.", "source": "Sunnah / Common supplication"}, {"id": 48, "category": "daily", "title": "Subhanallah", "subtitle": "Dhikr", "arabic": "سُبْحَانَ اللَّهِ", "translit": "Subhanallah.", "turkish": "Allah her türlü eksiklikten uzaktır.", "english": "Glory be to Allah.", "source": "Sunnah / Common supplication"}, {"id": 49, "category": "daily", "title": "Alhamdulillah", "subtitle": "Dhikr", "arabic": "الْحَمْدُ لِلَّهِ", "translit": "Alhamdulillah.", "turkish": "Hamd Allah'a mahsustur.", "english": "All praise is for Allah.", "source": "Sunnah / Common supplication"}, {"id": 50, "category": "daily", "title": "La ilaha illallah", "subtitle": "Tawhid Dhikr", "arabic": "لَا إِلَٰهَ إِلَّا اللَّهُ", "translit": "La ilaha illallah.", "turkish": "Allah'tan başka ilâh yoktur.", "english": "There is no god but Allah.", "source": "Sunnah / Common supplication"}, {"id": 51, "category": "daily", "title": "Astaghfirullah", "subtitle": "Seeking Forgiveness", "arabic": "أَسْتَغْفِرُ اللَّهَ", "translit": "Astaghfirullah.", "turkish": "Allah'tan bağışlanma dilerim.", "english": "I seek forgiveness from Allah.", "source": "Sunnah / Common dhikr"}, {"id": 52, "category": "daily", "title": "La hawla wa la quwwata illa billah", "subtitle": "Strength from Allah", "arabic": "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", "translit": "La hawla wa la quwwata illa billah.", "turkish": "Güç ve kuvvet ancak Allah'ın yardımıyladır.", "english": "There is no power and no might except with Allah.", "source": "Sunnah / Common dhikr"}, {"id": 53, "category": "daily", "title": "Bismillah", "subtitle": "Beginning with Allah's Name", "arabic": "بِسْمِ اللَّهِ", "translit": "Bismillah.", "turkish": "Allah'ın adıyla.", "english": "In the name of Allah.", "source": "Quran / Common dhikr"}, {"id": 54, "category": "daily", "title": "Hasbiyallahu la ilaha illa Hu", "subtitle": "Reliance and Trust", "arabic": "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ", "translit": "Hasbiyallahu la ilaha illa Huwa, 'alayhi tawakkaltu, wa Huwa Rabbul-'Arshil-'Azim.", "turkish": "Allah bana yeter. O'ndan başka ilâh yoktur. O'na tevekkül ettim. O, yüce Arş'ın Rabbidir.", "english": "Allah is sufficient for me. There is no god except Him. I place my trust in Him, and He is the Lord of the Mighty Throne.", "source": "Quran 9:129"}, {"id": 55, "category": "daily", "title": "Rabbana hablana min azwajina", "subtitle": "Prayer for Family", "arabic": "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا", "translit": "Rabbana hab lana min azwajina wa dhurriyyatina qurrata a'yunin waj'alna lil-muttaqina imama.", "turkish": "Rabbimiz! Eşlerimizden ve nesillerimizden bize göz aydınlığı ver ve bizi takvâ sahiplerine önder kıl.", "english": "Our Lord, bless us with spouses and offspring who will be the joy of our hearts, and make us models for the righteous.", "source": "Quran 25:74"}, {"id": 56, "category": "daily", "title": "Rabbana atina fid-dunya hasanah", "subtitle": "Good in Both Worlds", "arabic": "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ", "translit": "Rabbana atina fid-dunya hasanatan wa fil-akhirati hasanatan wa qina 'adhaban-nar.", "turkish": "Rabbimiz! Bize dünyada iyilik, ahirette de iyilik ver ve bizi ateş azabından koru.", "english": "Our Lord, grant us good in this world and good in the Hereafter, and protect us from the punishment of the Fire.", "source": "Quran 2:201"}, {"id": 57, "category": "quranic", "title": "Rabbish rah li sadri", "subtitle": "Prayer for Ease", "arabic": "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي", "translit": "Rabbish rah li sadri wa yassir li amri.", "turkish": "Rabbim! Göğsüme genişlik ver ve işimi kolaylaştır.", "english": "My Lord, expand my chest for me and ease my task for me.", "source": "Quran 20:25-26"}, {"id": 58, "category": "quranic", "title": "Rabbi zidni ilma", "subtitle": "Prayer for Knowledge", "arabic": "رَبِّ زِدْنِي عِلْمًا", "translit": "Rabbi zidni 'ilma.", "turkish": "Rabbim! İlmimi artır.", "english": "My Lord, increase me in knowledge.", "source": "Quran 20:114"}, {"id": 59, "category": "quranic", "title": "Rabbana la tuzigh qulubana", "subtitle": "Prayer for Steadfastness", "arabic": "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً ۚ إِنَّكَ أَنْتَ الْوَهَّابُ", "translit": "Rabbana la tuzigh qulubana ba'da idh hadaytana wa hab lana min ladunka rahmah, innaka antal-Wahhab.", "turkish": "Rabbimiz! Bizi hidayete erdirdikten sonra kalplerimizi eğriltme; bize katından rahmet bağışla. Şüphesiz çok bağışlayan Sensin.", "english": "Our Lord, do not let our hearts deviate after You have guided us. Grant us mercy from Yourself. Surely You are the Bestower.", "source": "Quran 3:8"}, {"id": 60, "category": "quranic", "title": "Rabbi inni lima anzalta ilayya", "subtitle": "Prayer for Need", "arabic": "رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ", "translit": "Rabbi inni lima anzalta ilayya min khayrin faqir.", "turkish": "Rabbim! Bana indireceğin her hayra muhtacım.", "english": "My Lord, I am truly in need of whatever good You send down to me.", "source": "Quran 28:24"}, {"id": 61, "category": "protection", "title": "A'udhu billahi minash-shaytanir-rajim", "subtitle": "Seeking Refuge", "arabic": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ", "translit": "A'udhu billahi minash-shaytanir-rajim.", "turkish": "Kovulmuş şeytandan Allah'a sığınırım.", "english": "I seek refuge in Allah from Satan, the accursed.", "source": "Quran / Common dhikr"}, {"id": 62, "category": "protection", "title": "Bismillahil-ladhi la yadurru", "subtitle": "Protection Supplication", "arabic": "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ", "translit": "Bismillahil-ladhi la yadurru ma'asmihi shay'un fil-ardi wa la fis-sama', wa Huwas-Sami'ul-'Alim.", "turkish": "Yerde ve gökte O'nun adıyla hiçbir şey zarar veremez. O, işitendir, bilendir.", "english": "In the name of Allah with whose name nothing in the earth or the heavens can cause harm. He is the All-Hearing, the All-Knowing.", "source": "Sunnah / Morning-Evening Dhikr"}, {"id": 63, "category": "protection", "title": "Allahumma inni a'udhu bika minal-hammi", "subtitle": "Refuge from Anxiety and Weakness", "arabic": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ وَالْعَجْزِ وَالْكَسَلِ وَالْبُخْلِ وَالْجُبْنِ وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ", "translit": "Allahumma inni a'udhu bika minal-hammi wal-hazan, wal-'ajzi wal-kasal, wal-bukhli wal-jubn, wa dala'id-dayni wa ghalabatir-rijal.", "turkish": "Allah'ım! Kederden, üzüntüden, acizlikten, tembellikten, cimrilikten, korkaklıktan, borç altında ezilmekten ve insanların baskısından Sana sığınırım.", "english": "O Allah, I seek refuge in You from anxiety and sorrow, weakness and laziness, miserliness and cowardice, being overwhelmed by debt and overpowered by men.", "source": "Sunnah / Common supplication"}, {"id": 64, "category": "protection", "title": "Allahumma inni as'alukal-'afwa wal-'afiyah", "subtitle": "Wellbeing Supplication", "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ", "translit": "Allahumma inni as'alukal-'afwa wal-'afiyah.", "turkish": "Allah'ım! Senden af ve afiyet isterim.", "english": "O Allah, I ask You for pardon and wellbeing.", "source": "Sunnah / Common supplication"}, {"id": 65, "category": "prayer", "title": "Allahumma a'inni 'ala dhikrika", "subtitle": "After Salah Supplication", "arabic": "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ", "translit": "Allahumma a'inni 'ala dhikrika wa shukrika wa husni 'ibadatik.", "turkish": "Allah'ım! Seni zikretmek, Sana şükretmek ve Sana güzel kulluk etmek için bana yardım et.", "english": "O Allah, help me remember You, thank You, and worship You in the best manner.", "source": "Sunnah / After Prayer"}, {"id": 66, "category": "daily", "title": "Sayyidul Istighfar", "subtitle": "Master Supplication for Forgiveness", "arabic": "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ...", "translit": "Allahumma anta Rabbi la ilaha illa Anta, khalaqtani wa ana 'abduk, wa ana 'ala 'ahdika wa wa'dika mastata't...", "turkish": "Allah'ım! Sen benim Rabbimsin. Senden başka ilâh yoktur. Beni Sen yarattın ve ben Senin kulunum. Gücüm yettiğince Sana verdiğim söz ve ahit üzereyim...", "english": "O Allah, You are my Lord. There is no god except You. You created me and I am Your servant. I uphold Your covenant and promise as best I can...", "source": "Sunnah / Forgiveness Supplication"}, {"id": 67, "category": "daily", "title": "Allahumma inni as'aluka ilman nafi'an", "subtitle": "Prayer for Beneficial Knowledge", "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا", "translit": "Allahumma inni as'aluka 'ilman nafi'an wa rizqan tayyiban wa 'amalan mutaqabbalan.", "turkish": "Allah'ım! Senden faydalı ilim, temiz rızık ve kabul edilmiş amel isterim.", "english": "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.", "source": "Sunnah / Common supplication"}, {"id": 68, "category": "daily", "title": "Allahumma inni as'aluka al-jannah", "subtitle": "Prayer for Paradise", "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ", "translit": "Allahumma inni as'alukal-jannah wa a'udhu bika minan-nar.", "turkish": "Allah'ım! Senden cenneti isterim ve ateşten Sana sığınırım.", "english": "O Allah, I ask You for Paradise and seek refuge in You from the Fire.", "source": "Sunnah / Common supplication"}, {"id": 69, "category": "daily", "title": "Allahumma barik lana", "subtitle": "Blessing Supplication", "arabic": "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا", "translit": "Allahumma barik lana fima razaqtana.", "turkish": "Allah'ım! Bize verdiğin rızıklarda bereket ihsan et.", "english": "O Allah, bless for us what You have provided us.", "source": "Sunnah / Common supplication"}, {"id": 70, "category": "quranic", "title": "Rabbana afrigh 'alayna sabran", "subtitle": "Prayer for Patience", "arabic": "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَتَوَفَّنَا مُسْلِمِينَ", "translit": "Rabbana afrigh 'alayna sabran wa tawaffana muslimin.", "turkish": "Rabbimiz! Üzerimize sabır yağdır ve canımızı Müslümanlar olarak al.", "english": "Our Lord, pour upon us patience and let us die as Muslims.", "source": "Quran 7:126"}]</script>
+<script id="esmaData" type="application/json">[{"id": 1, "title": "Ar-Rahman", "arabic": "الرَّحْمَٰنُ", "english": "The Most Compassionate", "turkish": "En Merhametli"}, {"id": 2, "title": "Ar-Rahim", "arabic": "الرَّحِيمُ", "english": "The Most Merciful", "turkish": "Çok Merhamet Eden"}, {"id": 3, "title": "Al-Malik", "arabic": "الْمَلِكُ", "english": "The King", "turkish": "Mutlak Hükümdar"}, {"id": 4, "title": "Al-Quddus", "arabic": "الْقُدُّوسُ", "english": "The Most Holy", "turkish": "Noksanlıktan Uzak"}, {"id": 5, "title": "As-Salam", "arabic": "السَّلَامُ", "english": "The Source of Peace", "turkish": "Selamet Veren"}, {"id": 6, "title": "Al-Mu'min", "arabic": "الْمُؤْمِنُ", "english": "The Giver of Faith", "turkish": "Güven Veren"}, {"id": 7, "title": "Al-Muhaymin", "arabic": "الْمُهَيْمِنُ", "english": "The Guardian", "turkish": "Gözetip Koruyan"}, {"id": 8, "title": "Al-'Aziz", "arabic": "الْعَزِيزُ", "english": "The Almighty", "turkish": "Mutlak Güç Sahibi"}, {"id": 9, "title": "Al-Jabbar", "arabic": "الْجَبَّارُ", "english": "The Compeller", "turkish": "Dilediğini Yaptıran"}, {"id": 10, "title": "Al-Mutakabbir", "arabic": "الْمُتَكَبِّرُ", "english": "The Supreme", "turkish": "Büyüklükte Eşi Olmayan"}, {"id": 11, "title": "Al-Khaliq", "arabic": "الْخَالِقُ", "english": "The Creator", "turkish": "Yaratan"}, {"id": 12, "title": "Al-Bari'", "arabic": "الْبَارِئُ", "english": "The Originator", "turkish": "Kusursuz Yaratan"}, {"id": 13, "title": "Al-Musawwir", "arabic": "الْمُصَوِّرُ", "english": "The Fashioner", "turkish": "Şekil Veren"}, {"id": 14, "title": "Al-Ghaffar", "arabic": "الْغَفَّارُ", "english": "The Constant Forgiver", "turkish": "Çok Bağışlayan"}, {"id": 15, "title": "Al-Qahhar", "arabic": "الْقَهَّارُ", "english": "The All-Subduer", "turkish": "Her Şeye Galip"}, {"id": 16, "title": "Al-Wahhab", "arabic": "الْوَهَّابُ", "english": "The Supreme Bestower", "turkish": "Karşılıksız Veren"}, {"id": 17, "title": "Ar-Razzaq", "arabic": "الرَّزَّاقُ", "english": "The Provider", "turkish": "Rızık Veren"}, {"id": 18, "title": "Al-Fattah", "arabic": "الْفَتَّاحُ", "english": "The Opener", "turkish": "Her Hayrı Açan"}, {"id": 19, "title": "Al-'Alim", "arabic": "الْعَلِيمُ", "english": "The All-Knowing", "turkish": "Her Şeyi Bilen"}, {"id": 20, "title": "Al-Qabid", "arabic": "الْقَابِضُ", "english": "The Withholder", "turkish": "Daraltan"}, {"id": 21, "title": "Al-Basit", "arabic": "الْبَاسِطُ", "english": "The Extender", "turkish": "Genişleten"}, {"id": 22, "title": "Al-Khafid", "arabic": "الْخَافِضُ", "english": "The Reducer", "turkish": "Alçaltan"}, {"id": 23, "title": "Ar-Rafi'", "arabic": "الرَّافِعُ", "english": "The Exalter", "turkish": "Yükselten"}, {"id": 24, "title": "Al-Mu'izz", "arabic": "الْمُعِزُّ", "english": "The Honorer", "turkish": "İzzet Veren"}, {"id": 25, "title": "Al-Mudhill", "arabic": "الْمُذِلُّ", "english": "The Dishonorer", "turkish": "Zillete Düşüren"}, {"id": 26, "title": "As-Sami'", "arabic": "السَّمِيعُ", "english": "The All-Hearing", "turkish": "Her Şeyi İşiten"}, {"id": 27, "title": "Al-Basir", "arabic": "الْبَصِيرُ", "english": "The All-Seeing", "turkish": "Her Şeyi Gören"}, {"id": 28, "title": "Al-Hakam", "arabic": "الْحَكَمُ", "english": "The Judge", "turkish": "Hükmeden"}, {"id": 29, "title": "Al-'Adl", "arabic": "الْعَدْلُ", "english": "The Utterly Just", "turkish": "Mutlak Adaletli"}, {"id": 30, "title": "Al-Latif", "arabic": "اللَّطِيفُ", "english": "The Subtle One", "turkish": "Lütfu Gizli Olan"}, {"id": 31, "title": "Al-Khabir", "arabic": "الْخَبِيرُ", "english": "The All-Aware", "turkish": "Her Şeyden Haberdar"}, {"id": 32, "title": "Al-Halim", "arabic": "الْحَلِيمُ", "english": "The Most Forbearing", "turkish": "Yumuşak Davranan"}, {"id": 33, "title": "Al-'Azim", "arabic": "الْعَظِيمُ", "english": "The Magnificent", "turkish": "Çok Yüce"}, {"id": 34, "title": "Al-Ghafur", "arabic": "الْغَفُورُ", "english": "The Great Forgiver", "turkish": "Bağışlaması Büyük"}, {"id": 35, "title": "Ash-Shakur", "arabic": "الشَّكُورُ", "english": "The Most Appreciative", "turkish": "Az Ameli Çok Karşılayan"}, {"id": 36, "title": "Al-'Aliyy", "arabic": "الْعَلِيُّ", "english": "The Most High", "turkish": "Çok Yüce"}, {"id": 37, "title": "Al-Kabir", "arabic": "الْكَبِيرُ", "english": "The Most Great", "turkish": "Büyüklükte Eşi Yok"}, {"id": 38, "title": "Al-Hafiz", "arabic": "الْحَفِيظُ", "english": "The Preserver", "turkish": "Koruyan"}, {"id": 39, "title": "Al-Muqit", "arabic": "المُقيِت", "english": "The Sustainer", "turkish": "Her Şeye Güç Yetiren"}, {"id": 40, "title": "Al-Hasib", "arabic": "الْحَسِيبُ", "english": "The Reckoner", "turkish": "Hesap Gören"}, {"id": 41, "title": "Al-Jalil", "arabic": "الْجَلِيلُ", "english": "The Majestic", "turkish": "Azamet Sahibi"}, {"id": 42, "title": "Al-Karim", "arabic": "الْكَرِيمُ", "english": "The Most Generous", "turkish": "Çok Cömert"}, {"id": 43, "title": "Ar-Raqib", "arabic": "الرَّقِيبُ", "english": "The Watchful", "turkish": "Her An Gözeten"}, {"id": 44, "title": "Al-Mujib", "arabic": "الْمُجِيبُ", "english": "The Responsive One", "turkish": "Dualara Cevap Veren"}, {"id": 45, "title": "Al-Wasi'", "arabic": "الْوَاسِعُ", "english": "The All-Encompassing", "turkish": "İlmi ve Rahmeti Geniş"}, {"id": 46, "title": "Al-Hakim", "arabic": "الْحَكِيمُ", "english": "The All-Wise", "turkish": "Hikmet Sahibi"}, {"id": 47, "title": "Al-Wadud", "arabic": "الْوَدُودُ", "english": "The Most Loving", "turkish": "Kullarını Seven"}, {"id": 48, "title": "Al-Majid", "arabic": "الْمَجِيدُ", "english": "The Most Glorious", "turkish": "Şanı Yüce"}, {"id": 49, "title": "Al-Ba'ith", "arabic": "الْبَاعِثُ", "english": "The Resurrector", "turkish": "Dirilten"}, {"id": 50, "title": "Ash-Shahid", "arabic": "الشَّهِيدُ", "english": "The Witness", "turkish": "Her Şeye Şahit"}, {"id": 51, "title": "Al-Haqq", "arabic": "الْحَقُّ", "english": "The Truth", "turkish": "Mutlak Gerçek"}, {"id": 52, "title": "Al-Wakil", "arabic": "الْوَكِيلُ", "english": "The Trustee", "turkish": "İşleri Üzerine Alan"}, {"id": 53, "title": "Al-Qawiyy", "arabic": "الْقَوِيُّ", "english": "The All-Strong", "turkish": "Çok Güçlü"}, {"id": 54, "title": "Al-Matin", "arabic": "الْمَتِينُ", "english": "The Firm", "turkish": "Çok Kuvvetli"}, {"id": 55, "title": "Al-Waliyy", "arabic": "الْوَلِيُّ", "english": "The Protecting Friend", "turkish": "Dost ve Yardımcı"}, {"id": 56, "title": "Al-Hamid", "arabic": "الْحَمِيدُ", "english": "The Praiseworthy", "turkish": "Övülmeye Layık"}, {"id": 57, "title": "Al-Muhsi", "arabic": "الْمُحْصِي", "english": "The All-Enumerating", "turkish": "Her Şeyi Tek Tek Bilen"}, {"id": 58, "title": "Al-Mubdi'", "arabic": "الْمُبْدِئُ", "english": "The Originator", "turkish": "İlk Defa Yaratan"}, {"id": 59, "title": "Al-Mu'id", "arabic": "الْمُعِيدُ", "english": "The Restorer", "turkish": "Yeniden Yaratan"}, {"id": 60, "title": "Al-Muhyi", "arabic": "الْمُحْيِي", "english": "The Giver of Life", "turkish": "Can Veren"}, {"id": 61, "title": "Al-Mumit", "arabic": "الْمُمِيتُ", "english": "The Creator of Death", "turkish": "Ölümü Yaratan"}, {"id": 62, "title": "Al-Hayy", "arabic": "الْحَيُّ", "english": "The Ever-Living", "turkish": "Diri Olan"}, {"id": 63, "title": "Al-Qayyum", "arabic": "الْقَيُّومُ", "english": "The Self-Subsisting", "turkish": "Varlığı Kendinden"}, {"id": 64, "title": "Al-Wajid", "arabic": "الْوَاجِدُ", "english": "The Finder", "turkish": "İstediğini Bulan"}, {"id": 65, "title": "Al-Majid", "arabic": "الْمَاجِدُ", "english": "The Illustrious", "turkish": "Şerefi Çok Yüce"}, {"id": 66, "title": "Al-Wahid", "arabic": "الْوَاحِدُ", "english": "The One", "turkish": "Tek Olan"}, {"id": 67, "title": "Al-Ahad", "arabic": "الْأَحَدُ", "english": "The Unique", "turkish": "Eşi Benzeri Olmayan"}, {"id": 68, "title": "As-Samad", "arabic": "الصَّمَدُ", "english": "The Eternal Refuge", "turkish": "Her Şeyin Muhtaç Olduğu"}, {"id": 69, "title": "Al-Qadir", "arabic": "الْقَادِرُ", "english": "The Omnipotent", "turkish": "Her Şeye Gücü Yeten"}, {"id": 70, "title": "Al-Muqtadir", "arabic": "الْمُقْتَدِرُ", "english": "The Powerful", "turkish": "Dilediğini Yapmaya Gücü Yeten"}, {"id": 71, "title": "Al-Muqaddim", "arabic": "الْمُقَدِّمُ", "english": "The Expediter", "turkish": "Öne Alan"}, {"id": 72, "title": "Al-Mu'akhkhir", "arabic": "الْمُؤَخِّرُ", "english": "The Delayer", "turkish": "Geri Bırakan"}, {"id": 73, "title": "Al-Awwal", "arabic": "الْأَوَّلُ", "english": "The First", "turkish": "İlk"}, {"id": 74, "title": "Al-Akhir", "arabic": "الْآخِرُ", "english": "The Last", "turkish": "Son"}, {"id": 75, "title": "Az-Zahir", "arabic": "الظَّاهِرُ", "english": "The Manifest", "turkish": "Aşikâr Olan"}, {"id": 76, "title": "Al-Batin", "arabic": "الْبَاطِنُ", "english": "The Hidden", "turkish": "Gizli Olan"}, {"id": 77, "title": "Al-Wali", "arabic": "الْوَالِي", "english": "The Governor", "turkish": "Kainatı Yöneten"}, {"id": 78, "title": "Al-Muta'ali", "arabic": "الْمُتَعَالِي", "english": "The Most Exalted", "turkish": "Yüceler Yücesi"}, {"id": 79, "title": "Al-Barr", "arabic": "الْبَرُّ", "english": "The Source of Goodness", "turkish": "İyiliği Sonsuz"}, {"id": 80, "title": "At-Tawwab", "arabic": "التَّوَّابُ", "english": "The Acceptor of Repentance", "turkish": "Tövbeleri Kabul Eden"}, {"id": 81, "title": "Al-Muntaqim", "arabic": "الْمُنْتَقِمُ", "english": "The Avenger", "turkish": "Adaletle İntikam Alan"}, {"id": 82, "title": "Al-'Afuww", "arabic": "العَفُوُّ", "english": "The Pardoner", "turkish": "Affı Çok Olan"}, {"id": 83, "title": "Ar-Ra'uf", "arabic": "الرَّؤُوفُ", "english": "The Most Kind", "turkish": "Çok Şefkatli"}, {"id": 84, "title": "Malik-ul-Mulk", "arabic": "مَالِكُ الْمُلْكِ", "english": "Owner of All Dominion", "turkish": "Mülkün Sahibi"}, {"id": 85, "title": "Dhul-Jalali wal-Ikram", "arabic": "ذُو الْجَلَالِ وَالْإِكْرَامِ", "english": "Lord of Majesty and Honor", "turkish": "Celal ve İkram Sahibi"}, {"id": 86, "title": "Al-Muqsit", "arabic": "الْمُقْسِطُ", "english": "The Equitable", "turkish": "Hakkı Gözeten"}, {"id": 87, "title": "Al-Jami'", "arabic": "الْجَامِعُ", "english": "The Gatherer", "turkish": "Toplayan"}, {"id": 88, "title": "Al-Ghani", "arabic": "الْغَنِيُّ", "english": "The Self-Sufficient", "turkish": "Hiçbir Şeye Muhtaç Olmayan"}, {"id": 89, "title": "Al-Mughni", "arabic": "الْمُغْنِي", "english": "The Enricher", "turkish": "Zengin Eden"}, {"id": 90, "title": "Al-Mani'", "arabic": "الْمَانِعُ", "english": "The Withholder", "turkish": "Engelleyen"}, {"id": 91, "title": "Ad-Darr", "arabic": "الضَّارُ", "english": "The Distresser", "turkish": "Zarar Yaratan"}, {"id": 92, "title": "An-Nafi'", "arabic": "النَّافِعُ", "english": "The Propitious", "turkish": "Fayda Yaratan"}, {"id": 93, "title": "An-Nur", "arabic": "النُّورُ", "english": "The Light", "turkish": "Aydınlatan"}, {"id": 94, "title": "Al-Hadi", "arabic": "الْهَادِي", "english": "The Guide", "turkish": "Hidayet Veren"}, {"id": 95, "title": "Al-Badi'", "arabic": "الْبَدِيعُ", "english": "The Incomparable Originator", "turkish": "Eşsiz Yaratan"}, {"id": 96, "title": "Al-Baqi", "arabic": "الْبَاقِي", "english": "The Everlasting", "turkish": "Varlığı Sürekli"}, {"id": 97, "title": "Al-Warith", "arabic": "الْوَارِثُ", "english": "The Inheritor", "turkish": "Her Şeyin Son Sahibi"}, {"id": 98, "title": "Ar-Rashid", "arabic": "الرَّشِيدُ", "english": "The Guide to the Right Path", "turkish": "Doğru Yola İleten"}, {"id": 99, "title": "As-Sabur", "arabic": "الصَّبُورُ", "english": "The Patient", "turkish": "Cezada Acele Etmeyen"}]</script>
+
+<div id="toast33" class="toast33">33 tamamlandı</div>
+<div id="toast99" class="toast99">99 tamamlandı • Maşallah</div>
+
+<script>
+const duas = JSON.parse(document.getElementById('duasData').textContent);
+const esma = JSON.parse(document.getElementById('esmaData').textContent);
+let favoriteStore = JSON.parse(localStorage.getItem('favorites_v2') || '{"dua":[],"esma":[]}');
+if(Array.isArray(favoriteStore)) favoriteStore = { dua: favoriteStore, esma: [] };
+let duaCounts = JSON.parse(localStorage.getItem('duaReadCounts_clean') || '{}');
+let esmaCounts = JSON.parse(localStorage.getItem('esmaCounts_v2') || '{}');
+let lastOpened = JSON.parse(localStorage.getItem('lastOpened_v2') || 'null');
+let darkMode = localStorage.getItem('darkMode_clean')==='1';
+let muteSounds = localStorage.getItem('muteSounds_clean')==='1';
+let currentSection='home', currentMode='all', currentCategory='all', currentDetailType='dua', currentDetailId=null;
+let tasbihCount = Number(localStorage.getItem('tasbihCount_clean') || '0');
+const todayKey = 'tasbihToday_' + new Date().toISOString().slice(0,10);
+let tasbihToday = Number(localStorage.getItem(todayKey) || '0');
+let esmaFavoritesOnly = false;
+
+const duaList=document.getElementById('duaList'),
+esmaList=document.getElementById('esmaList'),
+favoritesList=document.getElementById('favoritesList'),
+homeSection=document.getElementById('homeSection'),
+esmaSection=document.getElementById('esmaSection'),
+favoritesSection=document.getElementById('favoritesSection'),
+detailSection=document.getElementById('detailSection'),
+tasbihSection=document.getElementById('tasbihSection'),
+detailTitle=document.getElementById('detailTitle'),
+detailSubtitle=document.getElementById('detailSubtitle'),
+detailSource=document.getElementById('detailSource'),
+detailArabic=document.getElementById('detailArabic'),
+detailTranslit=document.getElementById('detailTranslit'),
+detailTurkish=document.getElementById('detailTurkish'),
+detailEnglish=document.getElementById('detailEnglish'),
+detailCounterLabel=document.getElementById('detailCounterLabel'),
+navHome=document.getElementById('navHome'),
+navEsma=document.getElementById('navEsma'),
+navTasbih=document.getElementById('navTasbih'),
+navFavorites=document.getElementById('navFavorites'),
+categoryButtons=Array.from(document.querySelectorAll('.category-btn')),
+tasbihCountEl=document.getElementById('tasbihCount'),
+tasbihLap33El=document.getElementById('tasbihLap33'),
+tasbihLap99El=document.getElementById('tasbihLap99'),
+tasbihTodayEl=document.getElementById('tasbihToday'),
+progressFill=document.getElementById('progressFill'),
+goalText=document.getElementById('goalText'),
+searchInput=document.getElementById('searchInput'),
+esmaSearchInput=document.getElementById('esmaSearchInput'),
+favoritesSearchInput=document.getElementById('favoritesSearchInput'),
+audioDuaSearchInput=document.getElementById('audioDuaSearchInput'),
+audioDuaList=document.getElementById('audioDuaList'),
+audioPlayerTitle=document.getElementById('audioPlayerTitle'),
+tasksSearchInput=document.getElementById('tasksSearchInput'),
+tasksList=document.getElementById('tasksList'),
+tasksProgress=document.getElementById('tasksProgress'),
+continueBtn=document.getElementById('continueBtn'),
+darkModeBtn=document.getElementById('darkModeBtn'),
+muteBtn=document.getElementById('muteBtn'),
+resetAllTasbihBtn=document.getElementById('resetAllTasbihBtn'),
+duaCountNum=document.getElementById('duaCountNum'),
+duaPlusBtn=document.getElementById('duaPlusBtn'),
+duaMinusBtn=document.getElementById('duaMinusBtn'),
+duaResetBtn=document.getElementById('duaResetBtn'),
+toast33=document.getElementById('toast33'),
+toast99=document.getElementById('toast99'),
+favTotalStat=document.getElementById('favTotalStat');
+
+
+let currentLang = localStorage.getItem('app_lang_v1') || 'tr';
+const I18N = {
+  tr:{heroSub:'70 Dua • 99 Esmaül Hüsna • Sesli Dualar • 99 Günlük Görev',fav:'Favori',searchDua:'Dua ara...',showAll:'Tümünü Göster',all:'Tümü',prayer:'Namaz',daily:'Günlük',protection:'Korunma',quranic:"Kur'an",continue:'Kaldığın yerden devam',dark:'Karanlık mod',light:'Aydınlık mod',dualar:'Dualar',esma:'Esma',audio:'Sesli',tasks:'Görev',tasbih:'Tesbih',favorites:'Favoriler',esmaSearch:'Esma ara...',onlyFav:'Sadece favoriler',allEsma:'Tüm Esmalar',favSearch:'Favorilerde ara...',audioSearch:'Sesli dua ara...',audioNote:'Burada sadece doğru eşleşen gerçek hoca sesleri bulunur. Normal 70 dua listesi değiştirilmedi.',chooseAudio:'Bir sesli dua seç',stop:'⏹ Durdur',playScholar:'▶ Hoca Sesi',playing:'Çalıyor: ',completed:'Tamamlandı',audioError:'Ses açılamadı. İnterneti kontrol et.',noAudio:'Sesli dua bulunamadı',changeSearch:'Aramanı değiştir.',tasksTitle:'Görevler',tasksNote:'99 günlük ibadet takip planı. Tikler cihazda kaydedilir.',taskSearch:'Görev ara...',day:'Gün',done:'Tamamlandı',notDone:'Devam ediyor',dhikrCounter:'Zikir sayacı',esmaCounter:'Esma sayacı',back:'← Geri Dön',reset:'Sıfırla',mute:'Sesi Kapat',unmute:'Sesi Aç',resetAll:'Tümünü Sıfırla',currentRound:'Mevcut tur',lap33:'33 tamamlanan tur',lap99:'99 tamamlanan tur',todayTotal:'Bugünkü toplam',noDua:'Gösterilecek dua yok',noFav:'Favori bulunamadı',readCounter:'Okuma / zikir sayacı'},
+  en:{heroSub:'70 Prayers • 99 Beautiful Names • Audio Prayers • 99-Day Tasks',fav:'Favorite',searchDua:'Search prayers...',showAll:'Show All',all:'All',prayer:'Prayer',daily:'Daily',protection:'Protection',quranic:'Quranic',continue:'Continue where you left off',dark:'Dark mode',light:'Light mode',dualar:'Prayers',esma:'Names',audio:'Audio',tasks:'Tasks',tasbih:'Counter',favorites:'Favorites',esmaSearch:'Search names...',onlyFav:'Favorites only',allEsma:'All Names',favSearch:'Search favorites...',audioSearch:'Search audio prayers...',audioNote:'Only correctly matched real recitations are listed here. The normal 70-prayer list was not changed.',chooseAudio:'Choose an audio prayer',stop:'⏹ Stop',playScholar:'▶ Recitation',playing:'Playing: ',completed:'Completed',audioError:'Audio could not play. Check your internet.',noAudio:'No audio prayer found',changeSearch:'Change your search.',tasksTitle:'Tasks',tasksNote:'99-day worship tracking plan. Checkmarks are saved on this device.',taskSearch:'Search tasks...',day:'Day',done:'Completed',notDone:'In progress',dhikrCounter:'Dhikr counter',esmaCounter:'Name counter',back:'← Back',reset:'Reset',mute:'Mute Sound',unmute:'Unmute Sound',resetAll:'Reset All',currentRound:'Current round',lap33:'33 rounds completed',lap99:'99 rounds completed',todayTotal:'Today total',noDua:'No prayers to show',noFav:'No favorites found',readCounter:'Reading / dhikr counter'},
+  ar:{heroSub:'٧٠ دعاء • ٩٩ اسمًا من أسماء الله الحسنى • أدعية صوتية • مهام ٩٩ يومًا',fav:'المفضلة',searchDua:'ابحث عن دعاء...',showAll:'إظهار الكل',all:'الكل',prayer:'الصلاة',daily:'يومي',protection:'الحفظ',quranic:'قرآني',continue:'المتابعة من حيث توقفت',dark:'الوضع الداكن',light:'الوضع الفاتح',dualar:'الأدعية',esma:'الأسماء',audio:'الصوت',tasks:'المهام',tasbih:'التسبيح',favorites:'المفضلة',esmaSearch:'ابحث عن اسم...',onlyFav:'المفضلة فقط',allEsma:'كل الأسماء',favSearch:'ابحث في المفضلة...',audioSearch:'ابحث عن دعاء صوتي...',audioNote:'هنا توجد التلاوات الحقيقية المطابقة فقط. لم يتم تغيير قائمة الأدعية الأصلية.',chooseAudio:'اختر دعاءً صوتيًا',stop:'⏹ إيقاف',playScholar:'▶ تلاوة',playing:'يتم التشغيل: ',completed:'اكتمل',audioError:'تعذر تشغيل الصوت. تحقق من الإنترنت.',noAudio:'لم يتم العثور على دعاء صوتي',changeSearch:'غيّر البحث.',tasksTitle:'المهام',tasksNote:'خطة متابعة عبادات لمدة ٩٩ يومًا. يتم حفظ العلامات على هذا الجهاز.',taskSearch:'ابحث في المهام...',day:'اليوم',done:'مكتمل',notDone:'قيد التنفيذ',dhikrCounter:'عداد الذكر',esmaCounter:'عداد الأسماء',back:'← رجوع',reset:'إعادة',mute:'كتم الصوت',unmute:'تشغيل الصوت',resetAll:'إعادة الكل',currentRound:'الدورة الحالية',lap33:'دورات ٣٣ مكتملة',lap99:'دورات ٩٩ مكتملة',todayTotal:'إجمالي اليوم',noDua:'لا توجد أدعية للعرض',noFav:'لا توجد مفضلة',readCounter:'عداد القراءة / الذكر'}
+};
+function t(key){ return (I18N[currentLang] && I18N[currentLang][key]) || I18N.tr[key] || key; }
+const TASK_LIBRARY = [
+  {tr:'3× Ayetel Kürsi',en:'3× Ayatul Kursi',ar:'٣ مرات آية الكرسي'},
+  {tr:'99× Esmaül Hüsna zikri',en:'99× Beautiful Names dhikr',ar:'٩٩ مرة ذكر أسماء الله الحسنى'},
+  {tr:'33× Sübhanallah',en:'33× Subhanallah',ar:'٣٣ مرة سبحان الله'},
+  {tr:'33× Elhamdülillah',en:'33× Alhamdulillah',ar:'٣٣ مرة الحمد لله'},
+  {tr:'33× Allahu Ekber',en:'33× Allahu Akbar',ar:'٣٣ مرة الله أكبر'},
+  {tr:'100× Estağfirullah',en:'100× Astaghfirullah',ar:'١٠٠ مرة أستغفر الله'},
+  {tr:'10× Salavat',en:'10× Salawat',ar:'١٠ مرات صلاة على النبي'},
+  {tr:'1× Fatiha',en:'1× Al-Fatihah',ar:'مرة واحدة سورة الفاتحة'},
+  {tr:'3× İhlas',en:'3× Al-Ikhlas',ar:'٣ مرات سورة الإخلاص'},
+  {tr:'1× Felak ve Nas',en:'1× Al-Falaq and An-Nas',ar:'مرة الفلق والناس'},
+  {tr:'5 dakika dua ve tefekkür',en:'5 minutes of supplication and reflection',ar:'٥ دقائق دعاء وتفكر'},
+  {tr:'Bugün bir iyilik yap',en:'Do one good deed today',ar:'افعل خيرًا اليوم'}
+];
+function buildDailyTasks(day){
+  const a = TASK_LIBRARY[(day-1) % TASK_LIBRARY.length];
+  const b = TASK_LIBRARY[(day+2) % TASK_LIBRARY.length];
+  const c = TASK_LIBRARY[(day+5) % TASK_LIBRARY.length];
+  return [a,b,c];
+}
+function getTaskState(){ try{return JSON.parse(localStorage.getItem('tasks99_state_v1')||'{}')}catch(e){return{}} }
+function saveTaskState(state){ localStorage.setItem('tasks99_state_v1', JSON.stringify(state)); }
+function setLang(lang){
+  currentLang = lang;
+  localStorage.setItem('app_lang_v1', lang);
+  document.documentElement.lang = lang === 'ar' ? 'ar' : (lang === 'en' ? 'en' : 'tr');
+  document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('.lang-btn').forEach(function(btn){ btn.classList.toggle('active', btn.dataset.lang===lang); });
+  applyTranslations();
+  renderCurrent();
+}
+function applyTranslations(){
+  const set = (id, val) => { const el=document.getElementById(id); if(el) el.textContent=val; };
+  const ph = (id, val) => { const el=document.getElementById(id); if(el) el.placeholder=val; };
+  set('heroSub', t('heroSub'));
+  ph('searchInput', t('searchDua')); set('showAllBtn', t('showAll'));
+  const catBtns = document.querySelectorAll('.category-btn');
+  [['all','all'],['prayer','prayer'],['daily','daily'],['protection','protection'],['quranic','quranic']].forEach(function(pair,idx){ if(catBtns[idx]) catBtns[idx].textContent=t(pair[1]); });
+  set('continueBtn', t('continue'));
+  ph('esmaSearchInput', t('esmaSearch')); set('showAllEsmaBtn', t('showAll')); set('esmaFavFilterBtn', esmaFavoritesOnly ? t('allEsma') : t('onlyFav'));
+  ph('favoritesSearchInput', t('favSearch'));
+  ph('audioDuaSearchInput', t('audioSearch')); set('showAllAudioDuasBtn', t('showAll')); const note=document.querySelector('#audioDuasSection .audio-note'); if(note) note.textContent=t('audioNote'); set('stopAudioDuaBtn', t('stop'));
+  set('tasksTitle', t('tasksTitle')); set('tasksNote', t('tasksNote')); ph('tasksSearchInput', t('taskSearch')); set('showAllTasksBtn', t('showAll'));
+  set('backToListBtn', t('back')); set('detailCounterLabel', currentDetailType==='esma' ? t('esmaCounter') : t('dhikrCounter')); set('duaResetBtn', t('reset'));
+  set('navHome', t('dualar')); set('navEsma', t('esma')); set('navAudioDuas', t('audio')); set('navTasks', t('tasks')); set('navTasbih', t('tasbih')); set('navFavorites', t('favorites'));
+  const lap33=document.querySelector('.goal33-title'); if(lap33) lap33.textContent=t('lap33'); const labs=document.querySelectorAll('.goal-card .label'); if(labs[0]) labs[0].textContent=t('lap99'); if(labs[1]) labs[1].textContent=t('todayTotal');
+  set('resetTasbihBtn', t('reset')); set('resetAllTasbihBtn', t('resetAll'));
+  if(darkModeBtn) darkModeBtn.textContent = darkMode ? t('light') : t('dark');
+  if(muteBtn) muteBtn.textContent = muteSounds ? t('unmute') : t('mute');
+}
+
+function persistFavorites() {
+  localStorage.setItem('favorites_v2', JSON.stringify(favoriteStore));
+  favTotalStat.textContent = favoriteStore.dua.length + favoriteStore.esma.length;
+}
+function saveDuaCounts() { localStorage.setItem('duaReadCounts_clean', JSON.stringify(duaCounts)); }
+function saveEsmaCounts() { localStorage.setItem('esmaCounts_v2', JSON.stringify(esmaCounts)); }
+
+function applyTheme(){
+  document.body.classList.toggle('theme-dark', darkMode);
+  darkModeBtn.textContent = darkMode ? t('light') : t('dark');
+  localStorage.setItem('darkMode_clean', darkMode ? '1' : '0');
+}
+function updateContinueButton(){
+  continueBtn.classList.toggle('hidden', !lastOpened);
+}
+function setActiveNav(which){
+  navHome.classList.toggle('active', which==='home');
+  navEsma.classList.toggle('active', which==='esma');
+  navAudioDuas.classList.toggle('active', which==='audio');
+  navTasks.classList.toggle('active', which==='tasks');
+  navTasbih.classList.toggle('active', which==='tasbih');
+  navFavorites.classList.toggle('active', which==='favorites');
+}
+function isFav(type,id){
+  return favoriteStore[type].includes(id);
+}
+function toggleFavorite(type,id){
+  const arr = favoriteStore[type];
+  if(arr.includes(id)) favoriteStore[type]=arr.filter(x=>x!==id);
+  else favoriteStore[type].push(id);
+  persistFavorites();
+  renderCurrent();
+}
+function clearScreens(){
+  homeSection.style.display='none';
+  esmaSection.classList.remove('active');
+  audioDuasSection.classList.remove('active');
+  tasksSection.classList.remove('active');
+  favoritesSection.classList.remove('active');
+  detailSection.classList.remove('active');
+  tasbihSection.classList.remove('active');
+}
+function showHome(mode='all'){
+  currentSection='home'; currentMode=mode;
+  clearScreens();
+  homeSection.style.display='block';
+  setActiveNav(mode==='favorites' ? 'favorites' : 'home');
+  renderList();
+}
+function showEsma(){
+  currentSection='esma';
+  clearScreens();
+  esmaSection.classList.add('active');
+  setActiveNav('esma');
+  renderEsmaList();
+}
+function showFavorites(){
+  currentSection='favorites';
+  clearScreens();
+  favoritesSection.classList.add('active');
+  setActiveNav('favorites');
+  renderFavorites();
+}
+function showTasbih(){
+  currentSection='tasbih';
+  clearScreens();
+  tasbihSection.classList.add('active');
+  setActiveNav('tasbih');
+  updateTasbih();
+}
+
+
+
+const AUDIO_DUA_ITEMS = [
+  {id:1, title:'Al-Fatihah', source:'Quran 1:1-7', files:['https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/1.mp3']},
+  {id:2, title:'Ayatul Kursi', source:'Quran 2:255', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/262.mp3']},
+  {id:3, title:'Al-Ikhlas', source:'Quran 112:1-4', files:['https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/112.mp3']},
+  {id:4, title:'Al-Falaq', source:'Quran 113:1-5', files:['https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/113.mp3']},
+  {id:5, title:'An-Nas', source:'Quran 114:1-6', files:['https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/114.mp3']},
+  {id:10, title:'Rabbana Atina', source:'Quran 2:201', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/208.mp3']},
+  {id:11, title:'Rabbighfir Li', source:'Quran 14:41', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/1791.mp3']},
+  {id:18, title:"Du'a as-Safar", source:'Quran 43:13-14', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/4338.mp3','https://cdn.islamic.network/quran/audio/128/ar.alafasy/4339.mp3']},
+  {id:24, title:'Dua of Yunus', source:'Quran 21:87', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2570.mp3']},
+  {id:25, title:'Dua of Musa for Provision', source:'Quran 28:24', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/3276.mp3']},
+  {id:26, title:'Rabbi Zidni Ilma', source:'Quran 20:114', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2462.mp3']},
+  {id:27, title:'Rabbi Ishrah Li Sadri', source:'Quran 20:25-28', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2373.mp3','https://cdn.islamic.network/quran/audio/128/ar.alafasy/2374.mp3','https://cdn.islamic.network/quran/audio/128/ar.alafasy/2375.mp3','https://cdn.islamic.network/quran/audio/128/ar.alafasy/2376.mp3']},
+  {id:28, title:'Prayer for Parents', source:'Quran 17:24', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2053.mp3']},
+  {id:42, title:'Hasbunallahu', source:'Quran 3:173', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/466.mp3']},
+  {id:43, title:'Tawakkul Dua', source:'Quran 25:58', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2913.mp3']},
+  {id:54, title:'Hasbiyallahu la ilaha illa Hu', source:'Quran 9:129', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/1364.mp3']},
+  {id:55, title:'Rabbana hablana min azwajina', source:'Quran 25:74', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2929.mp3']},
+  {id:56, title:'Rabbana atina fid-dunya hasanah', source:'Quran 2:201', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/208.mp3']},
+  {id:57, title:'Rabbish rah li sadri', source:'Quran 20:25-26', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2373.mp3','https://cdn.islamic.network/quran/audio/128/ar.alafasy/2374.mp3']},
+  {id:58, title:'Rabbi zidni ilma', source:'Quran 20:114', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/2462.mp3']},
+  {id:59, title:'Rabbana la tuzigh qulubana', source:'Quran 3:8', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/301.mp3']},
+  {id:60, title:'Rabbi inni lima anzalta ilayya', source:'Quran 28:24', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/3276.mp3']},
+  {id:70, title:"Rabbana afrigh 'alayna sabran", source:'Quran 7:126', files:['https://cdn.islamic.network/quran/audio/128/ar.alafasy/1080.mp3']}
+];
+let audioDuaPlayer = new Audio();
+let audioDuaQueue = [];
+let audioDuaIndex = 0;
+function stopAudioDua(){
+  audioDuaQueue = [];
+  audioDuaIndex = 0;
+  audioDuaPlayer.pause();
+  audioDuaPlayer.removeAttribute('src');
+  audioPlayerTitle.textContent = t('chooseAudio');
+}
+function playAudioDua(item){
+  stopAudioDua();
+  audioDuaQueue = [].concat(item.files);
+  audioDuaIndex = 0;
+  audioPlayerTitle.textContent = t('playing') + item.title;
+  playNextAudioDuaFile();
+}
+function playNextAudioDuaFile(){
+  if(audioDuaIndex >= audioDuaQueue.length){ audioPlayerTitle.textContent = t('completed'); return; }
+  audioDuaPlayer.src = audioDuaQueue[audioDuaIndex];
+  audioDuaIndex += 1;
+  audioDuaPlayer.play().catch(function(){ audioPlayerTitle.textContent = t('audioError'); });
+}
+audioDuaPlayer.addEventListener('ended', playNextAudioDuaFile);
+function renderAudioDuas(){
+  const term = (audioDuaSearchInput.value || '').trim().toLowerCase();
+  const items = AUDIO_DUA_ITEMS.map(function(item){ return Object.assign({}, item, {dua: duas.find(function(d){ return d.id===item.id; })}); }).filter(function(item){ return item.dua; });
+  const filtered = term ? items.filter(function(item){ return item.title.toLowerCase().includes(term) || item.source.toLowerCase().includes(term) || item.dua.subtitle.toLowerCase().includes(term) || item.dua.translit.toLowerCase().includes(term) || item.dua.turkish.toLowerCase().includes(term) || (item.dua.english||'').toLowerCase().includes(term); }) : items;
+  audioDuaList.innerHTML = '';
+  if(!filtered.length){ audioDuaList.innerHTML = '<div class="dua-card"><h3>'+t('noAudio')+'</h3><p>'+t('changeSearch')+'</p></div>'; return; }
+  filtered.forEach(function(item){
+    const card = document.createElement('div');
+    card.className = 'dua-card';
+    card.innerHTML = '<div class="dua-top"><div class="dua-meta"><div class="dua-index">'+item.id+'</div><div><h3>'+item.title+'</h3><p>'+item.dua.subtitle+' • '+item.source+'</p><div class="audio-card-actions"><button class="audio-play-btn" type="button">'+t('playScholar')+'</button><button class="audio-stop-btn" type="button">'+t('stop')+'</button></div></div></div></div>';
+    card.querySelector('.audio-play-btn').addEventListener('click', function(e){ e.stopPropagation(); playAudioDua(item); });
+    card.querySelector('.audio-stop-btn').addEventListener('click', function(e){ e.stopPropagation(); stopAudioDua(); });
+    card.addEventListener('click', function(){ openDuaDetail(item.id); });
+    audioDuaList.appendChild(card);
+  });
+}
+function showAudioDuas(){
+  currentSection='audio';
+  clearScreens();
+  audioDuasSection.classList.add('active');
+  setActiveNav('audio');
+  renderAudioDuas();
+}
+
+function showTasks(){
+  currentSection='tasks';
+  clearScreens();
+  tasksSection.classList.add('active');
+  setActiveNav('tasks');
+  renderTasks();
+}
+function renderTasks(){
+  const state = getTaskState();
+  const term = (tasksSearchInput.value || '').trim().toLowerCase();
+  tasksList.innerHTML = '';
+  let completedDays = 0;
+  for(let day=1; day<=99; day++){
+    const items = buildDailyTasks(day);
+    const dayDone = items.every(function(_, idx){ return !!state[day+'_'+idx]; });
+    if(dayDone) completedDays++;
+  }
+  tasksProgress.textContent = completedDays + ' / 99';
+  for(let day=1; day<=99; day++){
+    const items = buildDailyTasks(day);
+    const searchable = (t('day')+' '+day+' '+items.map(x=>x.tr+' '+x.en+' '+x.ar).join(' ')).toLowerCase();
+    if(term && !searchable.includes(term)) continue;
+    const card = document.createElement('div');
+    const dayDone = items.every(function(_, idx){ return !!state[day+'_'+idx]; });
+    card.className = 'task-card' + (dayDone ? ' done' : '');
+    card.innerHTML = '<h3>'+t('day')+' '+day+' • '+(dayDone ? t('done') : t('notDone'))+'</h3><div class="task-items"></div>';
+    const list = card.querySelector('.task-items');
+    items.forEach(function(item, idx){
+      const key = day+'_'+idx;
+      const label = item[currentLang] || item.tr;
+      const row = document.createElement('label');
+      row.className = 'task-check';
+      row.innerHTML = '<input type="checkbox" '+(state[key]?'checked':'')+'><span>'+label+'</span>';
+      row.querySelector('input').addEventListener('change', function(e){
+        const s = getTaskState();
+        s[key] = e.target.checked;
+        saveTaskState(s);
+        renderTasks();
+      });
+      list.appendChild(row);
+    });
+    tasksList.appendChild(card);
+  }
+}
+
+
+// Safe speed-up: render long lists in small chunks so the first screen does not freeze.
+const RENDER_CHUNK_SIZE = 12;
+let duaRenderToken = 0;
+let esmaRenderToken = 0;
+function scheduleChunk(fn){
+  if('requestIdleCallback' in window){ requestIdleCallback(fn, {timeout: 250}); }
+  else { setTimeout(fn, 0); }
+}
+function appendDuaCard(dua){
+  const readCount = Number(duaCounts[dua.id] || 0);
+  const card=document.createElement('div');
+  card.className='dua-card';
+  card.innerHTML=`<div class="dua-top">
+    <div class="dua-meta">
+      <div class="dua-index">${dua.id}</div>
+      <div>
+        <h3>${dua.title}</h3>
+        <p>${dua.subtitle} • ${dua.source}</p>
+        <p>Okuma / zikir sayacı: ${readCount}</p>
+      </div>
+    </div>
+    <button class="fav-btn">${isFav('dua',dua.id)?'★':'☆'}</button>
+  </div>`;
+  card.addEventListener('click',()=>openDuaDetail(dua.id));
+  card.querySelector('.fav-btn').addEventListener('click', e => {
+    e.stopPropagation(); toggleFavorite('dua',dua.id);
+  });
+  return card;
+}
+function appendEsmaCard(item){
+  const count = Number(esmaCounts[item.id] || 0);
+  const card=document.createElement('div');
+  card.className='esma-card';
+  card.innerHTML=`<div class="esma-row">
+    <div class="dua-meta">
+      <div class="dua-index">${item.id}</div>
+      <div>
+        <h3>${item.title}</h3>
+        <p>${item.english}</p>
+        <p>${t('readCounter')}: ${count}</p>
+        <span class="badge">${item.turkish}</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:end;gap:10px">
+      <div class="esma-arabic">${item.arabic}</div>
+      <button class="fav-btn">${isFav('esma',item.id)?'★':'☆'}</button>
+    </div>
+  </div>`;
+  card.addEventListener('click',()=>openEsmaDetail(item.id));
+  card.querySelector('.fav-btn').addEventListener('click', e=>{ e.stopPropagation(); toggleFavorite('esma',item.id); });
+  return card;
+}
+
+function renderList(){
+  const token = ++duaRenderToken;
+  let filtered=[...duas];
+  if(currentCategory!=='all') filtered=filtered.filter(d=>d.category===currentCategory);
+  const term = searchInput.value.trim().toLowerCase();
+  if(term){
+    filtered = filtered.filter(d =>
+      d.title.toLowerCase().includes(term) ||
+      d.subtitle.toLowerCase().includes(term) ||
+      d.translit.toLowerCase().includes(term) ||
+      d.turkish.toLowerCase().includes(term) ||
+      (d.english||'').toLowerCase().includes(term)
+    );
+  }
+  duaList.innerHTML='';
+  if(!filtered.length){
+    duaList.innerHTML='<div class="dua-card"><h3>'+t('noDua')+'</h3><p>'+t('changeSearch')+'</p></div>';
+    return;
+  }
+  let index = 0;
+  function renderChunk(){
+    if(token !== duaRenderToken) return;
+    const fragment=document.createDocumentFragment();
+    const end=Math.min(index + RENDER_CHUNK_SIZE, filtered.length);
+    for(; index<end; index++) fragment.appendChild(appendDuaCard(filtered[index]));
+    duaList.appendChild(fragment);
+    if(index < filtered.length) scheduleChunk(renderChunk);
+  }
+  renderChunk();
+}
+
+function renderEsmaList(){
+  const token = ++esmaRenderToken;
+  let filtered=[...esma];
+  const term = esmaSearchInput.value.trim().toLowerCase();
+  if(term){
+    filtered = filtered.filter(item =>
+      item.title.toLowerCase().includes(term) ||
+      item.arabic.includes(term) ||
+      item.turkish.toLowerCase().includes(term) ||
+      item.english.toLowerCase().includes(term)
+    );
+  }
+  if(esmaFavoritesOnly) filtered = filtered.filter(x=>isFav('esma',x.id));
+  esmaList.innerHTML='';
+  if(!filtered.length){
+    esmaList.innerHTML='<div class="esma-card"><h3>Gösterilecek Esma yok</h3><p>Aramanı değiştir.</p></div>';
+    return;
+  }
+  let index = 0;
+  function renderChunk(){
+    if(token !== esmaRenderToken) return;
+    const fragment=document.createDocumentFragment();
+    const end=Math.min(index + RENDER_CHUNK_SIZE, filtered.length);
+    for(; index<end; index++) fragment.appendChild(appendEsmaCard(filtered[index]));
+    esmaList.appendChild(fragment);
+    if(index < filtered.length) scheduleChunk(renderChunk);
+  }
+  renderChunk();
+}
+
+function renderFavorites(){
+  const term = favoritesSearchInput.value.trim().toLowerCase();
+  const duaFavs = duas.filter(d=>isFav('dua',d.id)).map(d=>({type:'dua', item:d, count:Number(duaCounts[d.id]||0)}));
+  const esmaFavs = esma.filter(e=>isFav('esma',e.id)).map(e=>({type:'esma', item:e, count:Number(esmaCounts[e.id]||0)}));
+  let items = [...duaFavs, ...esmaFavs];
+  if(term){
+    items = items.filter(x => JSON.stringify(x.item).toLowerCase().includes(term));
+  }
+  favoritesList.innerHTML='';
+  if(!items.length){
+    favoritesList.innerHTML='<div class="fav-card"><h3>Henüz favori yok</h3><p>Dualar veya Esma bölümünden yıldız ile ekleyebilirsin.</p></div>';
+    return;
+  }
+  items.forEach(entry=>{
+    const {type,item,count} = entry;
+    const card=document.createElement('div');
+    card.className='fav-card';
+    if(type==='dua'){
+      card.innerHTML=`<div class="dua-top">
+        <div class="dua-meta">
+          <div class="dua-index">${item.id}</div>
+          <div>
+            <h3>${item.title}</h3>
+            <p>${item.subtitle} • ${item.source}</p>
+            <p>${t('readCounter')}: ${count}</p>
+          </div>
+        </div>
+        <button class="fav-btn">★</button>
+      </div>`;
+      card.addEventListener('click',()=>openDuaDetail(item.id));
+    } else {
+      card.innerHTML=`<div class="dua-top">
+        <div class="dua-meta">
+          <div class="dua-index">${item.id}</div>
+          <div>
+            <h3>${item.title}</h3>
+            <p>${item.english}</p>
+            <p>${t('readCounter')}: ${count}</p>
+          </div>
+        </div>
+        <button class="fav-btn">★</button>
+      </div>`;
+      card.addEventListener('click',()=>openEsmaDetail(item.id));
+    }
+    card.querySelector('.fav-btn').addEventListener('click', e=>{ e.stopPropagation(); toggleFavorite(type,item.id); });
+    favoritesList.appendChild(card);
+  });
+}
+
+function openDuaDetail(id){
+  const dua = duas.find(d=>d.id===id); if(!dua) return;
+  currentDetailType='dua'; currentDetailId=id; lastOpened = {type:'dua', id};
+  localStorage.setItem('lastOpened_v2', JSON.stringify(lastOpened));
+  updateContinueButton();
+  detailTitle.textContent=dua.title;
+  detailSubtitle.textContent=dua.subtitle;
+  detailSource.textContent=dua.source;
+  detailArabic.textContent=dua.arabic;
+  detailTranslit.textContent=dua.translit;
+  detailTurkish.textContent=dua.turkish;
+  detailEnglish.textContent=dua.english || 'English translation not available.';
+  detailCounterLabel.textContent=t('dhikrCounter');
+  updateDetailCounter();
+  clearScreens(); detailSection.classList.add('active');
+  setActiveNav(currentSection==='favorites' ? 'favorites' : 'home');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function openEsmaDetail(id){
+  const item = esma.find(d=>d.id===id); if(!item) return;
+  currentDetailType='esma'; currentDetailId=id; lastOpened = {type:'esma', id};
+  localStorage.setItem('lastOpened_v2', JSON.stringify(lastOpened));
+  updateContinueButton();
+  detailTitle.textContent=item.title;
+  detailSubtitle.textContent=item.english;
+  detailSource.textContent='Esmaül Hüsna';
+  detailArabic.textContent=item.arabic;
+  detailTranslit.textContent=item.title;
+  detailTurkish.textContent=item.turkish;
+  detailEnglish.textContent=item.english;
+  detailCounterLabel.textContent=t('esmaCounter');
+  updateDetailCounter();
+  clearScreens(); detailSection.classList.add('active');
+  setActiveNav(currentSection==='favorites' ? 'favorites' : 'esma');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function updateDetailCounter(){
+  const count = currentDetailType==='dua'
+    ? Number(duaCounts[currentDetailId] || 0)
+    : Number(esmaCounts[currentDetailId] || 0);
+  duaCountNum.textContent = count;
+}
+function bumpDetailCounter(delta){
+  if(currentDetailId===null) return;
+  if(currentDetailType==='dua'){
+    duaCounts[currentDetailId] = Math.max(0, Number(duaCounts[currentDetailId] || 0) + delta);
+    saveDuaCounts();
+  } else {
+    esmaCounts[currentDetailId] = Math.max(0, Number(esmaCounts[currentDetailId] || 0) + delta);
+    saveEsmaCounts();
+  }
+  updateDetailCounter();
+  renderCurrent();
+}
+function resetDetailCounter(){
+  if(currentDetailId===null) return;
+  if(currentDetailType==='dua'){ duaCounts[currentDetailId]=0; saveDuaCounts(); }
+  else { esmaCounts[currentDetailId]=0; saveEsmaCounts(); }
+  updateDetailCounter();
+  renderCurrent();
+}
+function goBackFromDetail(){
+  if(currentSection==='favorites') showFavorites();
+  else if(currentDetailType==='esma') showEsma();
+  else showHome('all');
+}
+
+function beep(freq=880,duration=120){
+  if(muteSounds) return;
+  try {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if(!Ctx) return;
+    const ctx = new Ctx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    gain.gain.value = 0.04;
+    osc.frequency.value = freq;
+    osc.type='sine';
+    osc.start();
+    setTimeout(()=>{osc.stop();ctx.close();}, duration);
+  } catch (e) {}
+}
+function vibrate(ms){ if(!muteSounds && navigator.vibrate) navigator.vibrate(ms); }
+function flashToast(el, ms){ if(!el) return; el.style.display='block'; setTimeout(()=>el.style.display='none', ms); }
+let previousTasbihCount = tasbihCount;
+function updateTasbih(){
+  tasbihCountEl.textContent = tasbihCount;
+  const mod33 = tasbihCount % 33;
+  const current33 = mod33===0 && tasbihCount>0 ? 33 : mod33;
+  const pct = Math.min((current33/33)*100, 100);
+  progressFill.style.width = pct + '%';
+  goalText.textContent = `${t('currentRound')}: ${current33} / 33`;
+  const lap33 = Math.floor(tasbihCount/33);
+  const lap99 = Math.floor(tasbihCount/99);
+  tasbihLap33El.textContent = lap33;
+  tasbihLap99El.textContent = lap99;
+  tasbihTodayEl.textContent = tasbihToday;
+  localStorage.setItem('tasbihCount_clean', String(tasbihCount));
+  localStorage.setItem(todayKey, String(tasbihToday));
+}
+function incrementTasbih(){
+  tasbihCount += 1; tasbihToday += 1;
+  const oldLap33 = Math.floor(previousTasbihCount/33), newLap33 = Math.floor(tasbihCount/33);
+  const oldLap99 = Math.floor(previousTasbihCount/99), newLap99 = Math.floor(tasbihCount/99);
+  if(newLap33 > oldLap33 && tasbihCount % 33 === 0){ flashToast(toast33, 1500); vibrate(120); beep(880, 120); }
+  if(newLap99 > oldLap99 && tasbihCount % 99 === 0){ flashToast(toast99, 1800); vibrate([120,80,120]); beep(660,160); setTimeout(()=>beep(990,180),170); }
+  previousTasbihCount = tasbihCount; updateTasbih();
+}
+function renderCurrent(){
+  if(currentSection==='home') renderList();
+  else if(currentSection==='esma') renderEsmaList();
+  else if(currentSection==='audio') renderAudioDuas();
+  else if(currentSection==='tasks') renderTasks();
+  else if(currentSection==='favorites') renderFavorites();
+  favTotalStat.textContent = favoriteStore.dua.length + favoriteStore.esma.length;
+}
+
+document.getElementById('backToListBtn').onclick = goBackFromDetail;
+document.getElementById('showAllBtn').onclick = ()=>{ currentCategory='all'; categoryButtons.forEach((b,i)=>b.classList.toggle('active', i===0)); renderList(); };
+document.getElementById('showAllEsmaBtn').onclick = ()=>{ esmaSearchInput.value=''; esmaFavoritesOnly=false; document.getElementById('esmaFavFilterBtn').textContent=t('onlyFav'); renderEsmaList(); };
+document.getElementById('esmaFavFilterBtn').onclick = ()=>{ esmaFavoritesOnly=!esmaFavoritesOnly; document.getElementById('esmaFavFilterBtn').textContent = esmaFavoritesOnly ? t('allEsma') : t('onlyFav'); renderEsmaList(); };
+navHome.onclick = ()=> showHome('all');
+navEsma.onclick = ()=> showEsma();
+navAudioDuas.onclick = ()=> showAudioDuas();
+navTasks.onclick = ()=> showTasks();
+navFavorites.onclick = ()=> showFavorites();
+navTasbih.onclick = ()=> showTasbih();
+categoryButtons.forEach(btn=>btn.onclick=()=>{ currentCategory=btn.dataset.category; categoryButtons.forEach(b=>b.classList.toggle('active', b===btn)); renderList(); });
+searchInput.addEventListener('input', renderList);
+esmaSearchInput.addEventListener('input', renderEsmaList);
+favoritesSearchInput.addEventListener('input', renderFavorites);
+audioDuaSearchInput.addEventListener('input', renderAudioDuas);
+tasksSearchInput.addEventListener('input', renderTasks);
+document.getElementById('showAllAudioDuasBtn').onclick = ()=>{ audioDuaSearchInput.value=''; renderAudioDuas(); };
+document.getElementById('showAllTasksBtn').onclick = ()=>{ tasksSearchInput.value=''; renderTasks(); };
+document.getElementById('stopAudioDuaBtn').onclick = stopAudioDua;
+document.querySelectorAll('.lang-btn').forEach(function(btn){ btn.addEventListener('click', function(){ setLang(btn.dataset.lang); }); });
+continueBtn.onclick = ()=> {
+  if(!lastOpened) return;
+  if(lastOpened.type==='dua') openDuaDetail(lastOpened.id);
+  else openEsmaDetail(lastOpened.id);
+};
+darkModeBtn.onclick = ()=> { darkMode = !darkMode; applyTheme(); };
+muteBtn.onclick = ()=> {
+  muteSounds = !muteSounds;
+  localStorage.setItem('muteSounds_clean', muteSounds ? '1' : '0');
+  muteBtn.textContent = muteSounds ? t('unmute') : t('mute');
+};
+document.getElementById('tapTasbihBtn').onclick = incrementTasbih;
+document.getElementById('resetTasbihBtn').onclick = ()=> { tasbihCount = 0; previousTasbihCount = 0; updateTasbih(); };
+document.getElementById('resetAllTasbihBtn').onclick = ()=> {
+  tasbihCount = 0; tasbihToday = 0; previousTasbihCount = 0; updateTasbih();
+};
+duaPlusBtn.onclick = ()=> bumpDetailCounter(1);
+duaMinusBtn.onclick = ()=> bumpDetailCounter(-1);
+duaResetBtn.onclick = resetDetailCounter;
+
+muteBtn.textContent = muteSounds ? t('unmute') : t('mute');
+applyTheme(); setLang(currentLang); updateContinueButton(); persistFavorites(); renderList(); updateTasbih();
+</script>
+</body>
+</html>
